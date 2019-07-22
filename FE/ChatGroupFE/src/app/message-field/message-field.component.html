@@ -1,0 +1,130 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Page content -->
+
+  <title>Chat</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+</head>
+<!--Coded With Love By Mutiullah Samim-->
+<div style="text-align: center;">
+<body>
+      <div class="card-footer"></div>
+    <div class="col-md-8 col-xl-6 chat">
+      <div class="card">
+        <div class="card-header msg_head">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" class="rounded-circle user_img">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>Chat with Ardit</span>
+              <p>1767 Messages</p>
+            </div>
+            <div class="video_cam">
+              <span><i class="fas fa-video"></i></span>
+              <span><i class="fas fa-phone"></i></span>
+            </div>
+          </div>
+          <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+          <div class="action_menu">
+            <ul>
+              <li><i class="fas fa-user-circle"></i> View profile</li>
+              <li><i class="fas fa-users"></i> Add to close friends</li>
+              <li><i class="fas fa-plus"></i> Add to group</li>
+              <li><i class="fas fa-ban"></i> Block</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body msg_card_body">
+          <div class="d-flex justify-content-start mb-4">
+            <div class="img_cont_msg">
+              <img src="https://cdn3.iconfinder.com/data/icons/pink-business-icons/744/technology_multimedia_message_balloon_speechbubble_speech_chat_conversation_chatting-512.png" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg_cotainer">
+              Hi, how are you samim?
+              <span class="msg_wtime">8:40 AM, Today</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mb-4">
+            <div class="msg_cotainer_send">
+              Hi Maryam i am good tnx how about you?
+              <span class="msg_time_send">8:55 AM, Today</span>
+            </div>
+            <div class="img_cont_msg">
+<img src="data:image/png;base64,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">
+            </div>
+          </div>
+          <div class="d-flex justify-content-start mb-4">
+            <div class="img_cont_msg">
+              <img src="https://cdn3.iconfinder.com/data/icons/pink-business-icons/744/technology_multimedia_message_balloon_speechbubble_speech_chat_conversation_chatting-512.png" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg_cotainer">
+              I am good too, thank you for your chat template
+              <span class="msg_time">9:00 AM, Today</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mb-4">
+            <div class="msg_cotainer_send">
+              You welcome Maryam
+              <span class="msg_time_send">9:05 AM, Today</span>
+            </div>
+            <div class="img_cont_msg">
+<img src="data:image/png;base64,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">
+            </div>
+          </div>
+          <div class="d-flex justify-content-start mb-4">
+            <div class="img_cont_msg">
+              <img src="https://cdn3.iconfinder.com/data/icons/pink-business-icons/744/technology_multimedia_message_balloon_speechbubble_speech_chat_conversation_chatting-512.png" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg_cotainer">
+              I am looking for your next templates
+              <span class="msg_time">9:07 AM, Today</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mb-4">
+            <div class="msg_cotainer_send">
+              Ok, thank you have a good day
+              <span class="msg_time_send">9:10 AM, Today</span>
+            </div>
+            <div class="img_cont_msg">
+            <img src="data:image/png;base64,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">
+            </div>
+          </div>
+          <div class="d-flex justify-content-start mb-4">
+            <div class="img_cont_msg">
+              <img src="https://cdn3.iconfinder.com/data/icons/pink-business-icons/744/technology_multimedia_message_balloon_speechbubble_speech_chat_conversation_chatting-512.png" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg_cotainer">
+              Bye, see you
+              <span class="msg_time">9:12 AM, Today</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="input-group">
+            <div class="input-group-append">
+              <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+            </div>
+            <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
+            <div class="input-group-append">
+              <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>>
+</body>
+</html>
+
