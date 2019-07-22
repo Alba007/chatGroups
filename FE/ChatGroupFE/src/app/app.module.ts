@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
+import { MessageFieldComponent } from './message-field/message-field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    MessageFieldComponent
   ],
   imports: [
     BrowserModule
