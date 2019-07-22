@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 import com.example.demo.models.Message;
+import com.example.demo.models.MessageAdd;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.repository.MessageRepository;
@@ -32,22 +33,30 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/sensor/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
     public Message get(@PathVariable("id") String id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElse(null);
     }
 
 
-
-
-    @RequestMapping(value = "/sensor", method = RequestMethod.POST)
-    public Message store(@Valid @RequestBody Message mesage) {
-        repository.save(mesage);
-//        AddSensor sensorInfo=new AddSensor("post",sensor.get_id(),sensor.getName(),
-//                sensor.getDescription(),sensor.getworkTime(),sensor.getData(),sensor.getGpsData());
-//        this.template.convertAndSend("/send/sensor", sensorInfo.toString());
-//        System.out.println(sensorInfo.toString());
-        return mesage;
+    @RequestMapping(value = "/messages", method = RequestMethod.POST)
+    public Message store(@Valid @RequestBody Message message) {
+        repository.save(message);
+        MessageAdd messageInfo=new MessageAdd("post",message.getId(),message.getSender(),
+                message.getContext(), message.getMain() ,message.getTime(),message.getGroupChatId());
+        this.template.convertAndSend("/send/message", messageInfo.toString());
+        System.out.println(messageInfo.toString());
+        return message;
+    }
+    @RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
+    public Message update(@PathVariable("id") String id, @Valid @RequestBody Message message) {
+        message.setId(id);
+        repository.save(message);
+        MessageAdd messageInfo=new MessageAdd("update",message.getId(),message.getSender(),
+                message.getContext(), message.getMain() ,message.getTime(),message.getGroupChatId());
+        this.template.convertAndSend("/send/message", messageInfo.toString());
+        System.out.println(messageInfo.toString());
+        return message;
     }
 
 }

@@ -47,11 +47,11 @@ public class Message {
         this.context = context;
     }
 
-    public boolean isType() {
+    public boolean getMain() {
         return main;
     }
 
-    public void setType(boolean main) {
+    public void setMain(boolean main) {
         this.main = main;
     }
 
