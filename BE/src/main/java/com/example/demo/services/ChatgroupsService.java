@@ -1,41 +1,25 @@
 package com.example.demo.services;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.example.demo.models.ChatGroupsModel;
+import com.example.demo.repository.ChatGroupsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Document("ChatsGroupsCollection")
+import java.util.List;
+
+@Service
 public class ChatgroupsService {
-    @Id
-    private String id;
-    private String name;
-    private String type;
 
-    public ChatGroupsModel() {
+    @Autowired
+    private ChatGroupsRepository chatGroupsRepository;
 
+    public ChatGroupsModel create(ChatGroupsModel chatgroupsModel){
+        return chatGroupsRepository.insert(chatgroupsModel);
     }
 
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
+    public List<ChatGroupsModel> get(){
+        return chatGroupsRepository.findAll();
     }
+
+    public void delete(String id) { chatGroupsRepository.findById(id).ifPresent(e -> chatGroupsRepository.delete(e));}
 }

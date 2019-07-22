@@ -1,4 +1,9 @@
 package com.example.demo.repository;
 
-public class ChatGroupsRepository {
+import com.example.demo.models.ChatGroupsModel;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ChatGroupsRepository extends MongoRepository<ChatGroupsModel, String> {
 }

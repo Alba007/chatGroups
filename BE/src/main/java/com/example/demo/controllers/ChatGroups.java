@@ -28,7 +28,7 @@ public class ChatGroups {
     ChatGroups(SimpMessagingTemplate template) {this.template = template ; }
 
     @GetMapping()
-    public List<ChatGroups> getChatGroups() { return chatgroupsService.get();}
+    public List<ChatGroupsModel> getChatGroups() { return chatgroupsService.get();}
 
     @PostMapping()
     public ChatGroupsModel createChatGroups(@RequestBody ChatGroupsModel chatGroupsModel) {
