@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
+import { WebSocketService } from '../WebSocketService';
 
 @Component({
   selector: 'app-chat',
@@ -11,7 +12,7 @@ export class ChatComponent implements OnInit {
   public chatMessages = [];
   messageForm: FormGroup;
 
-  constructor() {
+  constructor(private aaa: WebSocketService) {
   }
 
   ngOnInit() {
@@ -24,7 +25,8 @@ export class ChatComponent implements OnInit {
 
 
   sendMessage() {
-
+    const chatMessage = this.messageForm.getRawValue();
+    this.aaa.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
     console.log('msg sent',this.messageForm.getRawValue());
   }
 }
