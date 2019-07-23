@@ -22,18 +22,21 @@ export class WebSocketService {
   }
  
   connect() {
-    let socket = new SockJS("http://localhost:8080//socketMessage/");
+    let socket = new SockJS("http://localhost:8080/socketMessage/");
     this.stompClient = Stomp.over(socket);
-  
-
     this.stompClient.connect({}, (frame)=> {
       this.stompClient.subscribe("/ChatGroups/create", (message) => {
-
-        console.log("message")
-        console.log(message.body)
+          console.log("message")
+          console.log(message.body)
       // this.filterWebSocketService.emitFilter(filterInfo);
     }); 
-    });
+      this.stompClient.subscribe("/ChatGroups/public", (message) => {
+          console.log("message alba")
+          console.log(message) ;
+      })
+      this.stompClient.send("/chat.sendMessage", {}, "hello")
+    }
+    );
   }
  
   disconnect() {
@@ -44,8 +47,4 @@ export class WebSocketService {
     this.setConnected(false);
     console.log('Disconnected!');
   }
- 
-  
- 
-  
 }
