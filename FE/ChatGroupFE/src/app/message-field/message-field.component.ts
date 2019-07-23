@@ -9,9 +9,7 @@ export class MessageFieldComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-
-   
-  }
+  ngOnInit() {}
 
 }
+  
