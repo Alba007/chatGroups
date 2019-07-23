@@ -8,51 +8,23 @@ import * as SockJS from 'sockjs-client';
 })
 export class WebSocketService {
 
-  
-  
   disabled = true;
  
-  private stompClient = null;
+  public stompClient:any;
  
   constructor() {
   }
- 
-  setConnected(connected: boolean) {
-    this.disabled = !connected;
- 
-    if (connected) {
-    }
-  }
+
+  private onConnect = () => {
+    this.stompClient.subscribe("/topic/public", (payload) => {
+      console.log('Received message', JSON.parse(payload.body));
+  })
+}
  
   connect() {
     let socket = new SockJS("http://localhost:8080//socketMessage/");
     this.stompClient = Stomp.over(socket);
-  
-
-    this.stompClient.connect({}, (frame)=> {
-      this.stompClient.subscribe("/ChatGroups/create", (message) => {
-
-        console.log("message")
-        console.log(message.body)
-      // this.filterWebSocketService.emitFilter(filterInfo);
-    });
-      
-
-        
-     
-    });
+    this.stompClient.connect({}, this.onConnect);
   }
  
-  disconnect() {
-    if (this.stompClient != null) {
-      this.stompClient.disconnect();
-    }
- 
-    this.setConnected(false);
-    console.log('Disconnected!');
-  }
- 
-  
- 
-  
 }
