@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MaterialModule} from '../material.module';
 
 @Component({
   selector: 'app-message-field',
@@ -7,15 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessageFieldComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
 
-    $(document).ready(function(){
-      $('#action_menu_btn').click(function(){
-        $('.action_menu').toggle();
-      });
-    });
   }
 
 }
