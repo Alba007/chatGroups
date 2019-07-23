@@ -8,8 +8,6 @@ import * as SockJS from 'sockjs-client';
 })
 export class WebSocketService {
 
-  
-  
   disabled = true;
  
   private stompClient = null;
@@ -19,7 +17,6 @@ export class WebSocketService {
  
   setConnected(connected: boolean) {
     this.disabled = !connected;
- 
     if (connected) {
     }
   }
@@ -35,11 +32,7 @@ export class WebSocketService {
         console.log("message")
         console.log(message.body)
       // this.filterWebSocketService.emitFilter(filterInfo);
-    });
-      
-
-        
-     
+    }); 
     });
   }
  
