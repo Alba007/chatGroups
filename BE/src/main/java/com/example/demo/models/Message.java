@@ -7,19 +7,25 @@ public class Message {
    private String id ;
    private String sender ;
    private String context ;
-   private boolean main ;
+   private MessageType type ;
    private Timestamp time ;
    private String groupChatId ;
 
+
+    public enum MessageType {
+        CHAT,
+        JOIN,
+        LEAVE
+    }
     public Message() {
 
     }
 
-    public Message(String id, String sender, String context, boolean main, Timestamp time, String groupChatId) {
+    public Message(String id, String sender, String context, MessageType type, Timestamp time, String groupChatId) {
         this.id = id;
         this.sender = sender;
         this.context = context;
-        this.main = main;
+        this.type = type;
         this.time = time;
         this.groupChatId = groupChatId;
     }
@@ -47,12 +53,12 @@ public class Message {
         this.context = context;
     }
 
-    public boolean getMain() {
-        return main;
+    public MessageType getType() {
+        return type;
     }
 
-    public void setMain(boolean main) {
-        this.main = main;
+    public void setMessageType(MessageType type) {
+        this.type = type;
     }
 
     public Timestamp getTime() {

@@ -8,7 +8,7 @@ public class ChatGroupsModel {
     @Id
     private String id;
     private String name;
-    private String type;
+    private Boolean main;
 
     public ChatGroupsModel() {
 
@@ -30,11 +30,11 @@ public class ChatGroupsModel {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public Boolean getType() {
+        return main;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(Boolean main) {
+        this.main = main;
     }
 }
