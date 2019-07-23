@@ -15,4 +15,6 @@ public class MessageController {
     public MessageController sendMessage(@Payload MessageController chatMessage) {
         return chatMessage;
     }
+
+
 }

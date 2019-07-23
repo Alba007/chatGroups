@@ -10,12 +10,7 @@ export class MessageFieldComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
-    $(document).ready(function(){
-      $('#action_menu_btn').click(function(){
-        $('.action_menu').toggle();
-      });
-    });
+   
   }
 
 }
