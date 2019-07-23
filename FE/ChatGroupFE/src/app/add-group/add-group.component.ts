@@ -4,6 +4,7 @@ import { GroupChat } from '../GroupChat';
 import { DeleteComponent } from '../delete/delete.component';
 import { HttpReqService } from '../http-req-service.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { ChatComponent } from '../chat/chat.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ public groupForm:FormGroup;
 public groupChat:GroupChat;
 //ndryshoje
  public data:any
-  constructor( private httpService:HttpReqService,private dialog: MatDialog,public dialogRef: MatDialogRef<Chat>) { }
+  constructor( private httpService:HttpReqService,private dialog: MatDialog,public dialogRef: MatDialogRef<ChatComponent>) { }
 
   ngOnInit() {
     this.initData();
