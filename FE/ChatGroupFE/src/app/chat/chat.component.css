@@ -6,10 +6,10 @@ body,html{
     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 }
 
-.chat{
+/* .chat{
     margin-top: 75px;
     margin-bottom: auto;
-}
+} */
 .card{
     height: 500px;
     border-radius: 15px !important;
@@ -44,14 +44,14 @@ border-radius: 0 0 15px 15px !important;
      box-shadow:none !important;
    outline:0px !important;
 }
-.type_msg{
+/* .type_msg{
     background-color: rgba(0,0,0,0.3) !important;
     border:0 !important;
     color:white !important;
     height: 60px !important;
     overflow-y: auto;
-}
-    .type_msg:focus{
+} */
+    /* .type_msg:focus{
      box-shadow:none !important;
    outline:0px !important;
 }
@@ -68,7 +68,7 @@ background-color: rgba(0,0,0,0.3) !important;
     border:0 !important;
     color: white !important;
     cursor: pointer;
-}
+} */
 .search_btn{
     border-radius: 0 15px 15px 0 !important;
     background-color: rgba(0,0,0,0.3) !important;
@@ -217,8 +217,9 @@ padding-right: 10px;
 cursor: pointer;
 background-color: rgba(0,0,0,0.2);
 }
-@media(max-width: 576px){
+/* @media(max-width: 576px){
 .contacts_card{
-margin-bottom: 15px !important;
+    margin-left: -300px;
+    margin-top: 70px;
 }
-}
+} */
