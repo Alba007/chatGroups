@@ -1,3 +1,20 @@
-<p>
-  add-group works!
-</p>
+<mat-icon  style=" float: right"id="close-icon"(click)="closeDialog()">close</mat-icon>
+<br>
+
+<br>
+
+<form [formGroup]="cameraForm" (ngSubmit)="addGroup()" class="example-form">
+   
+  <mat-form-field class="example-full-width">
+     
+    <input formControlName="name" matInput placeholder="Name" >
+    </mat-form-field>
+    <br>
+   
+        <button  type ="submit" mat-raised-button color="primary" >{{data? 'Update': 'Add'}}</button>
+        
+
+
+
+  
+</form>

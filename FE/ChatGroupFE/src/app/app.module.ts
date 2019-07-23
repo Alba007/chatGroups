@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AddGroupComponent } from './add-group/add-group.component';
+import { DeleteComponent } from './delete/delete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule
