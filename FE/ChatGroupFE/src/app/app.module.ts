@@ -6,6 +6,8 @@ import { AddGroupComponent } from './add-group/add-group.component';
 import { DeleteComponent } from './delete/delete.component';
 import { ChatComponent } from './chat/chat.component';
 import { MessageFieldComponent } from './message-field/message-field.component';
+import {MaterialModule} from "./material.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,8 +18,10 @@ import { MessageFieldComponent } from './message-field/message-field.component';
     MessageFieldComponent
   ],
   imports: [
-    BrowserModule
-  ],
+    BrowserModule,
+    MaterialModule,
+    ReactiveFormsModule,
+],
   providers: [],
   bootstrap: [AppComponent]
 })

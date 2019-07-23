@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from './WebSocketService';
+import {MaterialModule} from './material.module';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,12 @@ export class AppComponent implements OnInit {
 
 
   }
+  title = 'ChatGroupFE';
 
   ngOnInit(): void {
-    console.log("hello")
-    this.socketService.connect()
+    console.log('hello');
+    this.socketService.connect();
   }
-  title = 'ChatGroupFE';
-  
+
 
 }
