@@ -1,6 +1,6 @@
 
 export interface GroupChat{
-    _id:string;
-    name:string;
-    main:boolean;
+    _id: string;
+    name: string;
+    main: boolean;
 }
