@@ -1,0 +1,37 @@
+<div *ngIf="!username">
+  <div class="modal">
+    <p class="text">Enter username</p>
+    <form [formGroup]="usernameForm" (submit)="saveUsername()">
+      <input class="username-area" formControlName="username" type="textarea">
+      <button class="usernameButton">Confirm</button>
+    </form>
+  </div>
+</div>
+<div class="main" *ngIf="username">
+  <div class="header"></div>
+  <div class="chat-full">
+  <div class="group-list">
+    <ul>
+      <li *ngFor="let group of chatGroups" (click)="openChat(group.id, group.name)">{{group.name}}</li>
+    </ul>
+  </div>
+    <div class="chat">
+      <ul>
+        <li *ngFor="let messages of chatMessages" >{{messages}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="add-group">
+        <button  class="addClass" mat-raised-button (click)="addGroup()">
+            <mat-icon>add</mat-icon>Add Chat Group </button>
+</div>
+    <div class="send-message">
+      <form [formGroup]="messageForm" (submit)="sendMessage()">
+        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
+        <button class="send-msg" (click)="sendMessage()" >Send</button>
+      </form>
+
+    </div>
+  </div>
+</div>

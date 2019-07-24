@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/ChatGroups")
+@RequestMapping("/api")
 public class ChatGroups {
 
     @Autowired
@@ -27,18 +27,18 @@ public class ChatGroups {
     @Autowired
     ChatGroups(SimpMessagingTemplate template) {this.template = template ; }
 
-    @GetMapping()
+    @GetMapping("/ChatGroups")
     public List<ChatGroupsModel> getChatGroups() { return chatgroupsService.get();}
 
-    @PostMapping()
+    @PostMapping("/ChatGroups")
     public ChatGroupsModel createChatGroups(@RequestBody ChatGroupsModel chatGroupsModel) {
         ChatGroupsModel chatGroupsModel1 = chatgroupsService.create(chatGroupsModel);
-        this.template.convertAndSend("/ChatGroups/create", chatGroupsModel.toString());
+        this.template.convertAndSend("/topic/create", chatGroupsModel.toString());
         return chatGroupsModel1;
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/ChatGroups/{id}")
     public void deleteChatGroups (@PathVariable("id") String id) {
-        this.template.convertAndSend("/ChartGroups/delete", id);
+        this.template.convertAndSend("/topic/delete", id);
         chatgroupsService.delete(id);
     }
     }
