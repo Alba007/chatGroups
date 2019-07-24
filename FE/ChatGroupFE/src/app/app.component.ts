@@ -15,8 +15,6 @@ export class AppComponent implements OnInit {
   title = 'ChatGroupFE';
 
   ngOnInit(): void {
-    console.log('hello');
-    this.socketService.connect();
   }
 
 

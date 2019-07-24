@@ -8,6 +8,10 @@ import { ChatComponent } from './chat/chat.component';
 import { MessageFieldComponent } from './message-field/message-field.component';
 import {MaterialModule} from "./material.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule,MatMenuModule,MatFormFieldModule ,MatInputModule,MatSelectModule, MatDialogModule} from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +25,20 @@ import {ReactiveFormsModule} from "@angular/forms";
     BrowserModule,
     MaterialModule,
     ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatListModule,
+    MatMenuModule,
+    MatFormFieldModule,
 ],
+entryComponents:[AddGroupComponent,DeleteComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
