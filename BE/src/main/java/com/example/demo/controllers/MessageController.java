@@ -37,19 +37,25 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
+    @GetMapping("/messages/{id}")
+    public List<Message> getMessageByChatId(@PathVariable("id") String id){
+        return repository.findByGroupChatId(id);
+
+    }
+
+   /* @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
     public Message get(@PathVariable("id") String id) {
         return repository.findById(id).orElse(null);
-    }
+    }*/
 
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
     public Message store(@Valid @RequestBody Message message) {
         repository.save(message);
-//        AddMessage messageInfo=new AddMessage("post",message.getId(),message.getSender(),
-//                message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
-//        this.template.convertAndSend("/topic/public", messageInfo.toString());
-        //System.out.println(messageInfo.toString());
+       AddMessage messageInfo=new AddMessage("post",message.getId(),message.getSender(),
+              message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
+       this.template.convertAndSend("/topic/public", messageInfo.toString());
+        System.out.println(messageInfo.toString());
         return message;
     }
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)

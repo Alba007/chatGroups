@@ -12,8 +12,8 @@ public class AddMessage extends Message {
         return typee;
     }
 
-    public void setType(String typee) {
-        this.typee = typee;
+    public void setType(String type) {
+        this.typee = type;
     }
     public AddMessage(String typee,String id, String sender, String context, MessageType typeMess, String time, String groupChatId) {
         super(id,sender,context,typeMess,time,groupChatId);
