@@ -8,7 +8,7 @@ public class Message {
    private String sender ;
    private String context ;
    private MessageType type ;
-   private Timestamp time ;
+   private String time ;
    private String groupChatId ;
 
 
@@ -21,7 +21,7 @@ public class Message {
 
     }
 
-    public Message(String id, String sender, String context, MessageType type, Timestamp time, String groupChatId) {
+    public Message(String id, String sender, String context, MessageType type, String time, String groupChatId) {
         this.id = id;
         this.sender = sender;
         this.context = context;
@@ -61,11 +61,11 @@ public class Message {
         this.type = type;
     }
 
-    public Timestamp getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

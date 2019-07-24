@@ -45,3 +45,38 @@
   float: right;
   display: block;
 }
+
+.modal{
+  width: 30%;
+  height: 20%;
+  margin: 200px auto;
+  background-color: #252b3f;
+  border: 3px solid #454d63;
+  border-radius: 15px;
+}
+.text{
+  color: lightgray;
+  padding-left: 20px;
+  font-size: 21px;
+}
+.username-area{
+  margin-left: 66px;
+  padding-top: 10px;
+  color: white;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-inline-start: none;
+  border-inline-end: none;
+  border-block-start: none;
+  border-block-end-color: gray;
+}
+.usernameButton{
+  margin-left: 105px;
+  margin-top: 23px;
+  width: 34%;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 17px;
+  border: 1px solid #0f75af;
+  background-color: #3e89b7;
+}

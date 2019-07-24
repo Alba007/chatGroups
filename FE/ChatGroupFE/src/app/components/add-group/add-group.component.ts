@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GroupChat} from '../GroupChat';
+import {GroupChat} from '../../models/GroupChat';
 import {DeleteComponent} from '../delete/delete.component';
-import {HttpReqService} from '../http-req-service.service';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {HttpReqService} from '../../services/http-req-service.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChatComponent} from '../chat/chat.component';
 
 
@@ -15,10 +15,9 @@ import {ChatComponent} from '../chat/chat.component';
 export class AddGroupComponent implements OnInit {
   public groupForm: FormGroup;
   public groupChat: GroupChat;
-//ndryshoje
-  public data: any;
 
-  constructor(private httpService: HttpReqService, private dialog: MatDialog, public dialogRef: MatDialogRef<ChatComponent>) {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private httpService: HttpReqService, private dialog: MatDialog, public dialogRef: MatDialogRef<ChatComponent>) {
   }
 
   ngOnInit() {
@@ -27,8 +26,9 @@ export class AddGroupComponent implements OnInit {
   }
 
   initData() {
+
     this.groupForm = new FormGroup({
-      name: new FormControl(',', Validators.required)
+      name: new FormControl('', Validators.required)
     })
 
   }
@@ -67,25 +67,18 @@ export class AddGroupComponent implements OnInit {
   }
 
   addGroup() {
-
     if (this.groupForm.invalid) {
       return;
     }
     this.groupChat = {...this.groupForm.getRawValue()}
-    if (this.data) {
-      this.groupChat._id = this.data._id;
-      this.httpService.updateGroup(this.groupChat).subscribe(
-        data => console.log('success', data),
-        error => console.error('Error', error)
-      );
-    } else {
+    this.groupChat.main=false;
+    console.log(this.groupChat)
+
 
       this.httpService.saveGroup(this.groupChat).subscribe(
         data => console.log('Success!', data),
         error => console.error('Error!', error)
       );
-    }
-
     this.onclose();
   }
 
