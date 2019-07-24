@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import { WebSocketService } from '../WebSocketService';
+import {HttpReqService} from '../http-req-service.service';
+import {GroupChat} from '../GroupChat'
 
 @Component({
   selector: 'app-chat',
@@ -12,21 +13,27 @@ export class ChatComponent implements OnInit {
   public chatMessages = [];
   messageForm: FormGroup;
 
-  constructor(private aaa: WebSocketService) {
+  constructor(private service: HttpReqService) {
   }
 
   ngOnInit() {
+    this.getChatGroups();
     this.messageForm = new FormGroup({
       message: new FormControl(''),
     });
-    this.chatGroups = ['gr1', 'gr2', 'gr3'];
+    this.chatGroups = [];
     this.chatMessages = ['msg1', 'msg2', 'msg3'];
   }
 
+  getChatGroups(): void {
+    this.service.getGroups().subscribe(data => {
+      this.chatGroups.push();
+    })
+
+  }
 
   sendMessage() {
-    const chatMessage = this.messageForm.getRawValue();
-    this.aaa.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+
     console.log('msg sent',this.messageForm.getRawValue());
   }
 }

@@ -8,6 +8,10 @@ import { ChatComponent } from './chat/chat.component';
 import { MessageFieldComponent } from './message-field/message-field.component';
 import {MaterialModule} from "./material.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {HttpReqService} from './http-req-service.service';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -21,8 +25,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     BrowserModule,
     MaterialModule,
     ReactiveFormsModule,
+    HttpClientModule
 ],
-  providers: [],
+  providers: [HttpReqService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

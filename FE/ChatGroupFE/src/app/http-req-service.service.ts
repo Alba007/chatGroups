@@ -10,16 +10,16 @@ import {GroupChat} from './GroupChat';
 })
 export class HttpReqService {
   //changeURL
-  url = 'http://localhost:8080/graphics/graphic';
+  url = 'http://localhost:8080/api/ChatGroups';
 
 
   constructor(private http: HttpClient, private dialog: MatDialog) {
   }
 
-  /*public  getGroups():Observable<GroupChat>{
-     return  this.http.get<GroupChat[]>(this.url)
+  public  getGroups():Observable<GroupChat[]>{
+     return  this.http.get<GroupChat[]>(this.url);
 
-   }*/
+   }
 
   public saveGroup(group: GroupChat) {
     return this.http.post<any>(this.url, group);
