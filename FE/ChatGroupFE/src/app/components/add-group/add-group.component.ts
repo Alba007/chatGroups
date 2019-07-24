@@ -1,8 +1,8 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GroupChat} from '../GroupChat';
+import {GroupChat} from '../../models/GroupChat';
 import {DeleteComponent} from '../delete/delete.component';
-import {HttpReqService} from '../http-req-service.service';
+import {HttpReqService} from '../../services/http-req-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChatComponent} from '../chat/chat.component';
 
@@ -26,7 +26,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   initData() {
-    
+
     this.groupForm = new FormGroup({
       name: new FormControl('', Validators.required)
     })
@@ -73,7 +73,7 @@ export class AddGroupComponent implements OnInit {
     this.groupChat = {...this.groupForm.getRawValue()}
     this.groupChat.main=false;
     console.log(this.groupChat)
-   
+
 
       this.httpService.saveGroup(this.groupChat).subscribe(
         data => console.log('Success!', data),
