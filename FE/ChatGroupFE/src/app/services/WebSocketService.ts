@@ -19,6 +19,10 @@ export class WebSocketService {
     this.stompClient.subscribe("/topic/public", (payload) => {
       console.log('Received message', JSON.parse(payload.body));
   })
+
+    this.stompClient.subscribe("/topic/create", (payload) => {
+      console.log('Received message', JSON.parse(payload.body));
+    })
 }
  
   connect() {

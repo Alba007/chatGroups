@@ -33,7 +33,7 @@ public class ChatGroups {
     @PostMapping()
     public ChatGroupsModel createChatGroups(@RequestBody ChatGroupsModel chatGroupsModel) {
         ChatGroupsModel chatGroupsModel1 = chatgroupsService.create(chatGroupsModel);
-        this.template.convertAndSend("/ChatGroups/create", chatGroupsModel.toString());
+        this.template.convertAndSend("/topic/create", chatGroupsModel.toString());
         return chatGroupsModel1;
     }
     @DeleteMapping("{id}")

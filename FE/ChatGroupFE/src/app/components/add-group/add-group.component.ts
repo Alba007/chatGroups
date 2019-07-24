@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GroupChat} from '../GroupChat';
+import {GroupChat} from '../../models/GroupChat';
 import {DeleteComponent} from '../delete/delete.component';
-import {HttpReqService} from '../http-req-service.service';
+import {HttpReqService} from '../../services/http-req-service.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ChatComponent} from '../chat/chat.component';
 

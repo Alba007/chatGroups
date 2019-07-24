@@ -6,18 +6,18 @@ import java.sql.Timestamp;
 
 
 public class AddMessage extends Message {
-    private String type ;
+    private String typee ;
 
     public String getTypee() {
-        return type;
+        return typee;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(String typee) {
+        this.typee = typee;
     }
-    public AddMessage(String type,String id, String sender, String context, MessageType typeMess, Timestamp time, String groupChatId) {
+    public AddMessage(String typee,String id, String sender, String context, MessageType typeMess, String time, String groupChatId) {
         super(id,sender,context,typeMess,time,groupChatId);
-        this.type=type ;
+        this.typee=typee ;
     }
 
     @Override

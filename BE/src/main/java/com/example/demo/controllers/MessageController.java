@@ -1,6 +1,10 @@
 package com.example.demo.controllers;
+import com.example.demo.models.ChatMessage;
 import com.example.demo.models.Message;
 import com.example.demo.models.AddMessage;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.repository.MessageRepository;
@@ -12,7 +16,7 @@ import java.util.List;
 
 
 
-@CrossOrigin(origins = "http:/localhost:8080")
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MessageController {
@@ -44,8 +48,8 @@ public class MessageController {
         repository.save(message);
 //        AddMessage messageInfo=new AddMessage("post",message.getId(),message.getSender(),
 //                message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
-//        this.template.convertAndSend("/send/message", messageInfo.toString());
-//        System.out.println(messageInfo.toString());
+//        this.template.convertAndSend("/topic/public", messageInfo.toString());
+        //System.out.println(messageInfo.toString());
         return message;
     }
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
