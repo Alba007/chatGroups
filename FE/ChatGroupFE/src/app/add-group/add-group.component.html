@@ -1,9 +1,9 @@
-<mat-icon  style=" float: right"id="close-icon"(click)="closeDialog()">close</mat-icon>
+<mat-icon  style=" float: right"id="close-icon"(click)="onclose()">close</mat-icon>
 <br>
 
 <br>
 
-<form [formGroup]="cameraForm" (ngSubmit)="addGroup()" class="example-form">
+<form [formGroup]="groupForm" (ngSubmit)="addGroup()" class="example-form">
 
   <mat-form-field class="example-full-width">
 
@@ -11,9 +11,10 @@
     </mat-form-field>
     <br>
 
-        <button  type ="submit" mat-raised-button color="primary" >{{data? 'Update': 'Add'}}</button>
+        <button  type ="submit" mat-raised-button color="primary" >Add</button>
 
 
 
 
 </form>
+

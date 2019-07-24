@@ -3,17 +3,20 @@
   <div class="chat-full">
   <div class="group-list">
     <ul>
-      <li *ngFor="let group of chatGroups">{{group}}</li>
+      <li *ngFor="let group of chatGroups" (click)="openChat(group.id)">{{group.name}}</li>
     </ul>
   </div>
     <div class="chat">
       <ul>
-        <li *ngFor="let messages of chatMessages">{{messages}}</li>
+        <li *ngFor="let messages of chatMessages" >{{messages}}</li>
       </ul>
     </div>
   </div>
   <div class="actions">
-    <div class="add-group"></div>
+    <div class="add-group">
+        <button  class="addClass" mat-raised-button (click)="addGroup()">
+            <mat-icon>add</mat-icon>Add Chat Group </button>
+</div>
     <div class="send-message">
       <form [formGroup]="messageForm" (submit)="sendMessage()">
         <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
