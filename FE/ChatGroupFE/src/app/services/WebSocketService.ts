@@ -2,13 +2,13 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {GroupChatWSService} from 'src/groupChatWs';
 import {Injectable} from "@angular/core";
-
+import { Observable, BehaviorSubject, Subject} from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
   disabled = true;
-
+  public newMessage = new Subject<any>()
   public stompClient: any;
 
   constructor(private groupChatWs: GroupChatWSService, private groupChatWSService: GroupChatWSService) {
@@ -16,12 +16,12 @@ export class WebSocketService {
 
   private onConnect = () => {
     this.stompClient.subscribe("/topic/public", (payload) => {
-      console.log('Received message', JSON.parse(payload.body));
+      this.newMessage.next(JSON.parse(payload.body))
+      //console.log('Received message', JSON.parse(payload.body));
     });
 
     this.stompClient.subscribe("/topic/create", (message) => {
       const groupInfo = JSON.parse(message.body);
-      console.log(groupInfo)
       this.groupChatWSService.emitGroupChat(groupInfo);
     });
   };

@@ -3,13 +3,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component'
 import { AddGroupComponent } from './components/add-group/add-group.component';
 import { DeleteComponent } from './components/delete/delete.component';
-
+import { FormsModule,  } from '@angular/forms';
 import {MaterialModule} from "./material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule,MatMenuModule,MatFormFieldModule ,MatInputModule,MatSelectModule, MatDialogModule} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChatComponent} from "./components/chat/chat.component";
+import { EditMessageComponent } from './components/edit-message/edit-message.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {ChatComponent} from "./components/chat/chat.component";
     AppComponent,
     AddGroupComponent,
     DeleteComponent,
-    ChatComponent
+    ChatComponent,
+    EditMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +37,9 @@ import {ChatComponent} from "./components/chat/chat.component";
     MatListModule,
     MatMenuModule,
     MatFormFieldModule,
+    FormsModule
 ],
-entryComponents:[AddGroupComponent,DeleteComponent],
+entryComponents:[AddGroupComponent,DeleteComponent,EditMessageComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
