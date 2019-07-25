@@ -18,8 +18,18 @@
   background-color: #91EAE4;
 }
 .chat{
-  width: 70%;
-  background-color: cornflowerblue;
+  position: absolute;
+  width: calc(100% - 20px);
+  max-width: 700px;
+  height: 650px;
+  border-radius: 10px;
+  background-color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-29%) translateY(-60%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: #f8f8f8;
+  overflow: hidden;
 }
 .actions{
   display: flex;
@@ -33,18 +43,43 @@
   width: 70%;
   background-color: chartreuse;
 }
+
 .text-area{
-  width: 81%;
-  display: flex;
-  height: 50%;
-  border-radius: 15px;
-  margin: 3% auto;
+  display: inline-block;
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #bcbdc0;
+  width: calc(100% - 160px);
+  position: relative;
+  padding: 0 20px;
 }
 .send-msg{
-  margin: -59px auto;
+  width: 120px;
+  height: 50px;
+  margin-top: -50px;
+  display: inline-block;
+  border-radius: 50px;
+  background-color: #a3d063;
+  border: 2px solid #a3d063;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  text-align: center;
   float: right;
-  display: block;
 }
+
+.send-msg:hover {
+  color: #a3d063;
+  background-color: #fff;
+}
+
+.send-msg.text {
+  font-size: 18px;
+  font-weight: 300;
+  display: inline-block;
+  line-height: 48px;
+}
+
 
 .modal{
   width: 30%;

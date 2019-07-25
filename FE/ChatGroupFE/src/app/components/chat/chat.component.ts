@@ -31,7 +31,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     "groupChatId": "",
     "sender": "",
     "time": "",
-    "type": Type.CHAT
+    "type": Type.CHAT,
   };
 
   constructor(private socketMessage: WebSocketService,
