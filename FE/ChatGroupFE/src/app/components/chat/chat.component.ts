@@ -21,7 +21,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   messageTobeShownInchat:any[]=[]
   usernameForm: FormGroup;
   public username: string = "";
-
+  //newMwssage
+  res:any
+  //position of message modified
+  pos:any
   messageForm: FormGroup;
   messageToBeSent: Message = {
     "context": "",
@@ -56,7 +59,28 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
     this.socketMessage.newMessage.subscribe(newMessage=>{
       //erdhi nje mesazh i ri nga nje chatues tjeter prandaj shtohet ne array
-      this.messageTobeShownInchat.push(newMessage.sender+":"+newMessage.context)
+      console.log(newMessage,"mesazhi per socket")
+      let that=this
+      if (newMessage.typee=="post"){
+        console.log(newMessage.sender + ":" + newMessage.context,"u be post")
+             var newMess={
+               id: newMessage.id,
+               data: newMessage.sender + ":" + newMessage.context
+             }
+        this.messageTobeShownInchat.push(newMess)
+      }
+      else {
+         //u modifikua nje mesazh 
+        var index = this.messageTobeShownInchat.map(function (current, index) {
+          if (current.id == newMessage.id) {
+            that.pos = index;
+            that.res = newMessage.context
+            return index
+          }
+        })
+         this.notifyForEditMessage()
+      }
+      
     })
   }
 
@@ -122,20 +146,34 @@ export class ChatComponent implements OnInit, AfterViewInit {
   editMesage(message){
     let that = this
     this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
-     var pos
+    
       if (res!=""){
           var index=this.messageTobeShownInchat.map(function(current, index){
           if (current.id==message.id){
-            pos=index ;
+            that.pos=index ;
+            that.res=res
             return index
           }
         })
-        
+        //
+           //ndryshon msg edhe ne back
+        var data = this.messageTobeShownInchat[this.pos].data.split(":")
+        this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+        this.chatMessages[this.pos].context = this.res
+          this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe() ;
       } 
-      var data = this.messageTobeShownInchat[pos].data.split(":")
-      this.messageTobeShownInchat[pos].data = data[0] + ":" + res
+    
+     
+
     }
     )
       
+  }
+  notifyForEditMessage() {
+    console.log(this.pos)
+    var data = this.messageTobeShownInchat[this.pos].data.split(":")
+    console.log(data,"shohim daten")
+    this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+    this.chatMessages[this.pos].context = this.res
   }
 }
