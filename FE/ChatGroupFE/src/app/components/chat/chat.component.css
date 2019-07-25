@@ -18,6 +18,7 @@
   background-color: #91EAE4;
 }
 .chat{
+  display: inline-grid;
   width: 70%;
   background-color: cornflowerblue;
 }
@@ -79,4 +80,7 @@
   font-size: 17px;
   border: 1px solid #0f75af;
   background-color: #3e89b7;
+}
+.message{
+  position: relative;
 }
