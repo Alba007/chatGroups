@@ -62,10 +62,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
       console.log(newMessage,"mesazhi per socket")
       let that=this
       if (newMessage.typee=="post"){
-        console.log(newMessage.sender + ":" + newMessage.context,"u be post")
              var newMess={
                id: newMessage.id,
-               data: newMessage.sender + ":" + newMessage.context
+               sender: newMessage.sender ,
+               context:newMessage.context,
+               type:newMessage.type,
+               groupChatId: newMessage.groupChatId,
+               time:newMessage.time
              }
         this.messageTobeShownInchat.push(newMess)
       }
@@ -82,6 +85,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }
       
     })
+    if (localStorage.getItem('username')){
+            this.username = localStorage.getItem('username')
+    }
+    else{
+
+    }
   }
 
   ngAfterViewInit() {
@@ -91,6 +100,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   saveUsername() {
     this.username = this.usernameForm.getRawValue().username;
+    localStorage.setItem('username',this.username);  
+
   }
 
   sendMessage() {
@@ -127,13 +138,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   addMessagesIntoChat() {
     this.messageTobeShownInchat=this.chatMessages.map(function(current){
-              return {
-                data:current.sender+":"+current.context,
-                id: current.id
-              }
+              return current
                
     })
-
+ console.log(this.messageTobeShownInchat)
   }
 
   addGroup(){
@@ -156,9 +164,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
           }
         })
         //
-           //ndryshon msg edhe ne back
-        var data = this.messageTobeShownInchat[this.pos].data.split(":")
-        this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+        this.messageTobeShownInchat[this.pos].context = this.res
         this.chatMessages[this.pos].context = this.res
           this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe() ;
       } 
@@ -170,10 +176,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       
   }
   notifyForEditMessage() {
-    console.log(this.pos)
-    var data = this.messageTobeShownInchat[this.pos].data.split(":")
-    console.log(data,"shohim daten")
-    this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
-    this.chatMessages[this.pos].context = this.res
+    
+    this.messageTobeShownInchat[this.pos].context = this.res
+    
   }
 }
