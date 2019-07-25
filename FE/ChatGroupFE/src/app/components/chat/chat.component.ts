@@ -18,10 +18,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public chatGroups = [];
   public chatMessages = [];
   public chatId: string = "";
-
+  messageTobeShownInchat:any[]=[]
   usernameForm: FormGroup;
   public username: string = "";
-
+  //newMwssage
+  res:any
+  //position of message modified
+  pos:any
   messageForm: FormGroup;
   messageToBeSent: Message = {
     "context": "",
@@ -50,9 +53,35 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageForm = new FormGroup({
       message: new FormControl(''),
     });
+
     this.usernameForm = new FormGroup({
       username: new FormControl(''),
     });
+    this.socketMessage.newMessage.subscribe(newMessage=>{
+      //erdhi nje mesazh i ri nga nje chatues tjeter prandaj shtohet ne array
+      console.log(newMessage,"mesazhi per socket")
+      let that=this
+      if (newMessage.typee=="post"){
+        console.log(newMessage.sender + ":" + newMessage.context,"u be post")
+             var newMess={
+               id: newMessage.id,
+               data: newMessage.sender + ":" + newMessage.context
+             }
+        this.messageTobeShownInchat.push(newMess)
+      }
+      else {
+         //u modifikua nje mesazh 
+        var index = this.messageTobeShownInchat.map(function (current, index) {
+          if (current.id == newMessage.id) {
+            that.pos = index;
+            that.res = newMessage.context
+            return index
+          }
+        })
+         this.notifyForEditMessage()
+      }
+      
+    })
   }
 
   ngAfterViewInit() {
@@ -61,14 +90,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   saveUsername() {
-
     this.username = this.usernameForm.getRawValue().username;
-    console.log(this.username)
   }
 
   sendMessage() {
-    // const chatMessage = this.messageForm.getRawValue();
-    // this.socketMessage.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
     this.messageToBeSent.context = this.messageForm.getRawValue().message;
     this.messageToBeSent.groupChatId = this.chatId;
     var today = new Date();
@@ -78,18 +103,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageToBeSent.sender = this.username;
     this.messageToBeSent.time = dateTime;
     this.messageToBeSent.type = Type.CHAT;
-    console.log(this.messageToBeSent);
-    this.getDataService.postMessages(this.messageToBeSent).subscribe(data => {
-
-    })
+    this.getDataService.postMessages(this.messageToBeSent).subscribe()
   }
 
-  openChat(id, name) {
-    this.chatId = id;
+  openChat(group) {
+    this.chatId = group.id;
     this.chatMessages=[];
-
-    this.httpService.getMessagesByChatId(id).subscribe(messages=>{
-      this.chatMessages=messages
+    this.messageTobeShownInchat=[]
+    this.httpService.getMessagesByChatId(this.chatId).subscribe(messages=>{
+     if (messages.length>0) {
+       this.chatMessages=messages 
+       //therritet metoda qe shton mesaZhet ne chat
+       this.addMessagesIntoChat() ;
+      }
     })
   }
 
@@ -99,11 +125,55 @@ export class ChatComponent implements OnInit, AfterViewInit {
     })
   }
 
+  addMessagesIntoChat() {
+    this.messageTobeShownInchat=this.chatMessages.map(function(current){
+              return {
+                data:current.sender+":"+current.context,
+                id: current.id
+              }
+               
+    })
+
+  }
+
   addGroup(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "30%";
     this.dialog.open(AddGroupComponent, dialogConfig).afterClosed().subscribe(res => {
     })
+  }
+  editMesage(message){
+    let that = this
+    this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
+    
+      if (res!=""){
+          var index=this.messageTobeShownInchat.map(function(current, index){
+          if (current.id==message.id){
+            that.pos=index ;
+            that.res=res
+            return index
+          }
+        })
+        //
+           //ndryshon msg edhe ne back
+        var data = this.messageTobeShownInchat[this.pos].data.split(":")
+        this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+        this.chatMessages[this.pos].context = this.res
+          this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe() ;
+      } 
+    
+     
+
+    }
+    )
+      
+  }
+  notifyForEditMessage() {
+    console.log(this.pos)
+    var data = this.messageTobeShownInchat[this.pos].data.split(":")
+    console.log(data,"shohim daten")
+    this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+    this.chatMessages[this.pos].context = this.res
   }
 }

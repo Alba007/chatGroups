@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { EditMessageComponent } from '../components/edit-message/edit-message.component';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ import { Observable } from 'rxjs';
 export class getDataService {
 
   url_message: string = "http://localhost:8080/api/messages" ;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private dialog: MatDialog) { }
   
   getMessages(): Observable<any[]> {
     return this.httpClient.get<any[]>(this.url_message);
@@ -16,4 +18,17 @@ export class getDataService {
   postMessages(message:any) {
     return this.httpClient.post(`${this.url_message}`, message)
   }
+  updateMessages(message: any,id){
+    console.log(message)
+      return this.httpClient.put(`${this.url_message}/${id}`, message)
+
+  }
+  openConfirmDialog() {
+    return this.dialog.open(EditMessageComponent, {
+      width: '300px',
+      disableClose: true,
+     
+    })
+  }
+
 }
