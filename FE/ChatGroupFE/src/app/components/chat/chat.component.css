@@ -30,6 +30,7 @@
   background-color: #91EAE4;
 }
 .chat{
+  display: inline-grid;
   width: 70%;
   background-color: cornflowerblue;
 }

@@ -25,9 +25,9 @@
       </ul>
     </div>
     <div class="chat">
-      <ul>
-        <li *ngFor="let messages of messageTobeShownInchat" (click)="editMesage(messages)">{{messages.data}}</li>
-      </ul>
+      <div class="message" *ngFor="let messages of messageTobeShownInchat" [style.text-align]=" username === messages.sender ? 'right':'left'" (click)="editMesage(messages)">{{messages.sender}}<br>
+        {{messages.context}}<br>
+        {{messages.time}}</div>
     </div>
   </div>
   <div class="actions">
