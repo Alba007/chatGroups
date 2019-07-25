@@ -46,7 +46,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.socketMessage.connect();
     this.groupChatWs.getMsgSubjectObservable().subscribe(x=>{
       if(x){
-        console.log("x",x)
         this.chatGroups.push(x)
       }
     });
@@ -59,7 +58,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
     this.socketMessage.newMessage.subscribe(newMessage=>{
       //erdhi nje mesazh i ri nga nje chatues tjeter prandaj shtohet ne array
-      console.log(newMessage,"mesazhi per socket")
       let that=this
       if (newMessage.typee=="post"){
              var newMess={
@@ -88,9 +86,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     if (localStorage.getItem('username')){
             this.username = localStorage.getItem('username')
     }
-    else{
-
-    }
   }
 
   ngAfterViewInit() {
@@ -114,7 +109,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageToBeSent.sender = this.username;
     this.messageToBeSent.time = dateTime;
     this.messageToBeSent.type = Type.CHAT;
-    this.getDataService.postMessages(this.messageToBeSent).subscribe()
+    this.getDataService.postMessages(this.messageToBeSent).subscribe(data=>{
+      this.messageForm.reset();
+    }
+      
+    );
+     
   }
 
   openChat(group) {
@@ -141,21 +141,20 @@ export class ChatComponent implements OnInit, AfterViewInit {
               return current
                
     })
- console.log(this.messageTobeShownInchat)
   }
 
   addGroup(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "30%";
+    dialogConfig.data=this.chatGroups
     this.dialog.open(AddGroupComponent, dialogConfig).afterClosed().subscribe(res => {
     })
   }
   editMesage(message){
     let that = this
     this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
-    
-      if (res!=""){
+      if (res){
           var index=this.messageTobeShownInchat.map(function(current, index){
           if (current.id==message.id){
             that.pos=index ;

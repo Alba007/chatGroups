@@ -1,9 +1,9 @@
 <div *ngIf="!username">
   <div class="modal">
     <p class="text">Enter username</p>
-    <form [formGroup]="usernameForm" (submit)="saveUsername()">
+    <form [formGroup]="usernameForm">
       <input class="username-area" formControlName="username" type="textarea">
-      <button class="usernameButton">Confirm</button>
+      <button class="usernameButton" (click)=" saveUsername()">Confirm</button>
     </form>
   </div>
 </div>
@@ -27,7 +27,7 @@
             <mat-icon>add</mat-icon>Add Chat Group </button>
 </div>
     <div class="send-message">
-      <form [formGroup]="messageForm" (submit)="sendMessage()">
+      <form [formGroup]="messageForm"  *ngIf="chatId!=''">  
         <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
         <button class="send-msg" (click)="sendMessage()" >Send</button>
       </form>
