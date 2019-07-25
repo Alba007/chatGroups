@@ -15,7 +15,7 @@
       <li *ngFor="let group of chatGroups" (click)="openChat(group)">{{group.name}}</li>
     </ul>
   </div>
-    <div class="chat">
+    <div class="chat" #chat>
       <div class="message" *ngFor="let messages of messageTobeShownInchat" [style.text-align]=" username === messages.sender ? 'right':'left'" (click)="editMesage(messages)">{{messages.sender}}<br>
         {{messages.context}}<br>
         {{messages.time}}</div>
