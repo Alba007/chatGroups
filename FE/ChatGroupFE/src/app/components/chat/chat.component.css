@@ -3,7 +3,7 @@
   margin: 0 auto;
   width: 1000px;
   height: 800px;
-  background-color: #78e08f;
+  /* background-color: #78e08f; */
 }
 .groupslist{
   border: 1px solid black;
@@ -19,7 +19,7 @@
 }
 .header{
   height: 7%;
-  background-color: forestgreen;
+  background-color: #a5adc5;
 }
 .chat-full{
   height: 80%;
@@ -28,12 +28,10 @@
 .group-list{
   width: 30%;
   background-color: #91EAE4;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-.chat{
-  display: inline-grid;
-  width: 70%;
-  background-color: cornflowerblue;
-}
+
 .actions{
   display: flex;
   height: 12.9%;
@@ -44,20 +42,71 @@
 }
 .send-message{
   width: 70%;
-  background-color: chartreuse;
+  /* background-color: chartreuse; */
 }
+
 .text-area{
-  width: 81%;
-  display: flex;
-  height: 50%;
-  border-radius: 15px;
-  margin: 3% auto;
+  display: inline-block;
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #bcbdc0;
+  width: calc(100% - 160px);
+  position: relative;
+  padding: 0 20px;
 }
 .send-msg{
-  margin: -59px auto;
+  width: 120px;
+  height: 50px;
+  margin-top: -50px;
+  display: inline-block;
+  border-radius: 50px;
+  background-color: #a3d063;
+  border: 2px solid #a3d063;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  text-align: center;
   float: right;
-  display: block;
 }
+
+.chat{
+  position: absolute;
+  margin-top: 5px;
+  width: calc(100% - 20px);
+  max-width: 700px;
+  height: 640px;
+  border-radius: 10px;
+  background-color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-29%) translateY(-60%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: #f8f8f8;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+
+
+/* .message.messages {
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: all 0.5s linear;
+  opacity: 0;
+} */
+.send-msg:hover {
+  color: #a3d063;
+  background-color: #fff;
+}
+
+.send-msg.text {
+  font-size: 18px;
+  font-weight: 300;
+  display: inline-block;
+  line-height: 48px;
+}
+
 
 .modal{
   width: 30%;
@@ -92,4 +141,8 @@
   font-size: 17px;
   border: 1px solid #0f75af;
   background-color: #3e89b7;
+}
+.message{
+  position: relative;
+  /* background-color: #f5886e; */
 }
