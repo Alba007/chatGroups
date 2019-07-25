@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {WebSocketService} from '../../services/WebSocketService';
-import {getDataService} from '../../services/getDataService';
-import {Message, Type} from '../../models/message';
-import {HttpReqService} from 'src/app/services/http-req-service.service';
-import {GroupChatWSService} from "../../../groupChatWs";
-import {MatDialog, MatDialogConfig} from "@angular/material";
-import {AddGroupComponent} from "../add-group/add-group.component";
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
+import { WebSocketService } from '../../services/WebSocketService';
+import { getDataService } from '../../services/getDataService';
+import { Message, Type } from '../../models/message';
+import { HttpReqService } from 'src/app/services/http-req-service.service';
+import { GroupChatWSService } from "../../../groupChatWs";
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { AddGroupComponent } from "../add-group/add-group.component";
 
 
 @Component({
@@ -18,13 +18,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public chatGroups = [];
   public chatMessages = [];
   public chatId: string = "";
-  messageTobeShownInchat:any[]=[]
+  messageTobeShownInchat: any[] = []
   usernameForm: FormGroup;
   public username: string = "";
   //newMwssage
-  res:any
+  res: any
   //position of message modified
-  pos:any
+  pos: any
   messageForm: FormGroup;
   messageToBeSent: Message = {
     "context": "",
@@ -33,21 +33,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
     "time": "",
     "type": Type.CHAT,
   };
+  @ViewChild('chat', { read: ElementRef })
+  private chatEl: ElementRef;
 
   constructor(private socketMessage: WebSocketService,
-              private getDataService: getDataService,
-              private groupChatWs:GroupChatWSService,
-              private dialog: MatDialog,
-              private httpService: HttpReqService) {
+    private getDataService: getDataService,
+    private groupChatWs: GroupChatWSService,
+    private dialog: MatDialog,
+    private httpService: HttpReqService) {
 
   }
 
   ngOnInit() {
     this.socketMessage.connect();
-    this.groupChatWs.getMsgSubjectObservable().subscribe(x=>{
-      if(x){
-        console.log("x",x)
+    this.groupChatWs.getMsgSubjectObservable().subscribe(x => {
+      if (x) {
+        console.log("x", x)
         this.chatGroups.push(x)
+
       }
     });
     this.messageForm = new FormGroup({
@@ -57,20 +60,23 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.usernameForm = new FormGroup({
       username: new FormControl(''),
     });
-    this.socketMessage.newMessage.subscribe(newMessage=>{
+    this.socketMessage.newMessage.subscribe(newMessage => {
       //erdhi nje mesazh i ri nga nje chatues tjeter prandaj shtohet ne array
-      console.log(newMessage,"mesazhi per socket")
-      let that=this
-      if (newMessage.typee=="post"){
-        console.log(newMessage.sender + ":" + newMessage.context,"u be post")
-             var newMess={
-               id: newMessage.id,
-               data: newMessage.sender + ":" + newMessage.context
-             }
+      console.log(newMessage, "mesazhi per socket")
+      let that = this
+      if (newMessage.typee == "post") {
+        var newMess = {
+          id: newMessage.id,
+          sender: newMessage.sender,
+          context: newMessage.context,
+          type: newMessage.type,
+          groupChatId: newMessage.groupChatId,
+          time: newMessage.time
+        }
         this.messageTobeShownInchat.push(newMess)
       }
       else {
-         //u modifikua nje mesazh 
+        //u modifikua nje mesazh 
         var index = this.messageTobeShownInchat.map(function (current, index) {
           if (current.id == newMessage.id) {
             that.pos = index;
@@ -78,10 +84,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
             return index
           }
         })
-         this.notifyForEditMessage()
+        this.notifyForEditMessage()
       }
-      
+      if (this.chatEl) {
+        this.chatEl.nativeElement.scrollTop = Math.ceil(this.chatEl.nativeElement.scrollHeight);
+      }
     })
+    if (localStorage.getItem('username')) {
+      this.username = localStorage.getItem('username')
+    }
+    else {
+
+    }
   }
 
   ngAfterViewInit() {
@@ -91,6 +105,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   saveUsername() {
     this.username = this.usernameForm.getRawValue().username;
+    localStorage.setItem('username', this.username);
+
   }
 
   sendMessage() {
@@ -104,17 +120,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageToBeSent.time = dateTime;
     this.messageToBeSent.type = Type.CHAT;
     this.getDataService.postMessages(this.messageToBeSent).subscribe()
+    this.messageForm.reset();
   }
-
+  
   openChat(group) {
     this.chatId = group.id;
-    this.chatMessages=[];
-    this.messageTobeShownInchat=[]
-    this.httpService.getMessagesByChatId(this.chatId).subscribe(messages=>{
-     if (messages.length>0) {
-       this.chatMessages=messages 
-       //therritet metoda qe shton mesaZhet ne chat
-       this.addMessagesIntoChat() ;
+    this.chatMessages = [];
+    this.messageTobeShownInchat = []
+    this.httpService.getMessagesByChatId(this.chatId).subscribe(messages => {
+      if (messages.length > 0) {
+        this.chatMessages = messages
+        //therritet metoda qe shton mesaZhet ne chat
+        this.addMessagesIntoChat();
       }
     })
   }
@@ -126,54 +143,47 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   addMessagesIntoChat() {
-    this.messageTobeShownInchat=this.chatMessages.map(function(current){
-              return {
-                data:current.sender+":"+current.context,
-                id: current.id
-              }
-               
-    })
+    this.messageTobeShownInchat = this.chatMessages.map(function (current) {
+      return current
 
+    })
+    console.log(this.messageTobeShownInchat)
   }
 
-  addGroup(){
+  addGroup() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "30%";
     this.dialog.open(AddGroupComponent, dialogConfig).afterClosed().subscribe(res => {
     })
   }
-  editMesage(message){
+  editMesage(message) {
     let that = this
     this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
-    
-      if (res!=""){
-          var index=this.messageTobeShownInchat.map(function(current, index){
-          if (current.id==message.id){
-            that.pos=index ;
-            that.res=res
+
+      if (res != "") {
+        var index = this.messageTobeShownInchat.map(function (current, index) {
+          if (current.id == message.id) {
+            that.pos = index;
+            that.res = res
             return index
           }
         })
         //
-           //ndryshon msg edhe ne back
-        var data = this.messageTobeShownInchat[this.pos].data.split(":")
-        this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
+        this.messageTobeShownInchat[this.pos].context = this.res
         this.chatMessages[this.pos].context = this.res
-          this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe() ;
-      } 
-    
-     
+        this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe();
+      }
+
+
 
     }
     )
-      
+
   }
   notifyForEditMessage() {
-    console.log(this.pos)
-    var data = this.messageTobeShownInchat[this.pos].data.split(":")
-    console.log(data,"shohim daten")
-    this.messageTobeShownInchat[this.pos].data = data[0] + ":" + this.res
-    this.chatMessages[this.pos].context = this.res
+
+    this.messageTobeShownInchat[this.pos].context = this.res
+
   }
 }
