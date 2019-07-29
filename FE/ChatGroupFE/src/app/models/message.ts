@@ -4,7 +4,7 @@ export interface Message {
   type: Type,
   time: any,
   groupChatId: string,
-  image: any
+  //image: any
 }
 
 export enum Type {
