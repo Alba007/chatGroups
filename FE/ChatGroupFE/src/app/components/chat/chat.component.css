@@ -89,7 +89,11 @@
   color: #a3d063;
   background-color: #fff;
 }
-
+.send-msg[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
 .send-msg.text {
   font-size: 18px;
   font-weight: 300;
@@ -160,3 +164,5 @@
   color: darkslategray;
   font-family: sans-serif;
 }
+
+

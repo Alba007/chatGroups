@@ -8,6 +8,7 @@ import {GroupChatWSService} from '../../../groupChatWs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddGroupComponent} from '../add-group/add-group.component';
 import {GroupChat} from '../../models/GroupChat';
+import { EditMessageComponent } from '../edit-message/edit-message.component';
 
 
 @Component({
@@ -17,11 +18,13 @@ import {GroupChat} from '../../models/GroupChat';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   public chatGroups = [];
+  sendDisabled:boolean=true
   public chatMessages = [];
   public chatId: string = '';
   public oldChatId = '';
   public join = false;
   public showChat = false;
+  public hasOpenGroup=false;
   public activeGroup: GroupChat[] = [];
   messageTobeShownInchat: any[] = [];
   usernameForm: FormGroup;
@@ -147,10 +150,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageToBeSent.time = '';
     this.messageToBeSent.type = Type.LEAVE;
     this.getDataService.postMessages(this.messageToBeSent).subscribe();
+    if (this.activeGroup.length==0) {
+      this.hasOpenGroup=false; 
+    }
 
   }
 
   openChat(group) {
+    this.hasOpenGroup=true ;
     this.chatId=group.id
     this.showChat = true;
     if (!this.join) {
@@ -185,8 +192,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageTobeShownInchat = [];
     this.httpService.getMessagesByChatId(group.id).subscribe(messages => {
       if (messages.length > 0) {
-        this.chatMessages = messages;
-        console.log("mesagerr")
+        this.chatMessages = messages
         console.log(messages)
         this.addMessagesIntoChat();
       }
@@ -223,31 +229,50 @@ export class ChatComponent implements OnInit, AfterViewInit {
       return;
     }
     let that = this;
-    this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
-
-        if (res != '') {
-          var index = this.messageTobeShownInchat.map(function(current, index) {
-            if (current.id == message.id) {
-              that.pos = index;
-              that.res = res;
-              return index;
-            }
-          });
-          //
-          this.messageTobeShownInchat[this.pos].context = this.res;
-          this.chatMessages[this.pos].context = this.res;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '30%';
+    dialogConfig.data = message ;
+    this.dialog.open(EditMessageComponent, dialogConfig).afterClosed().subscribe(res => {
+      console.log(res)
+      if (res != '') {
+        var index = this.messageTobeShownInchat.map(function (current, index) {
+          if (current.id == message.id) {
+            that.pos = index;
+            that.res = res;
+            return index;
+          }
+        });
+        if (res=='delete') {
+          console.log("delete test")
+          this.messageTobeShownInchat[this.pos].context = "DELETED";
+          this.chatMessages[this.pos].context = "DELETED";
+          this.chatMessages[this.pos].type = "DELETE"
           this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe();
+
         }
-
-
-      }
-    );
-
+        else {
+        this.messageTobeShownInchat[this.pos].context = this.res;
+        this.chatMessages[this.pos].context = this.res;
+        this.chatMessages[this.pos].type="EDIT"
+        this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe();
+      
+        }
+        }});
   }
 
   notifyForEditMessage() {
 
     this.messageTobeShownInchat[this.pos].context = this.res;
 
+  }
+
+  write(event){
+    if (event.target.value==""){
+              this.sendDisabled=true ;
+    }
+    else{
+           this.sendDisabled = false ;
+    }
   }
 }

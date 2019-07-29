@@ -16,7 +16,9 @@ public class Message {
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        DELETE,
+        IMAGE
     }
     public Message() {
 

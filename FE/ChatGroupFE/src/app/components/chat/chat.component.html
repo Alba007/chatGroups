@@ -61,9 +61,9 @@
       </button>
     </div>
     <div class="send-message">
-      <form [formGroup]="messageForm" (submit)="sendMessage()">
-        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
-        <button class="send-msg">Send</button>
+      <form [formGroup]="messageForm" (submit)="sendMessage()" *ngIf="hasOpenGroup">
+        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message" (keyup)="write($event)"/>
+        <button class="send-msg"  [disabled]="sendDisabled">Send</button>
       </form>
 
     </div>

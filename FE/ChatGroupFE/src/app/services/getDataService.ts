@@ -25,14 +25,12 @@ export class getDataService {
   updateMessages(message: any,id){
     console.log(message)
       return this.httpClient.put(`${this.url_message}/${id}`, message)
-
   }
 
   openConfirmDialog() {
     return this.dialog.open(EditMessageComponent, {
       width: '300px',
-      disableClose: true,
-
+      disableClose: true
     })
   }
 
