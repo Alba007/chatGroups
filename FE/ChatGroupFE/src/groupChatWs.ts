@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class GroupChatWSService {
   private msgSource=new BehaviorSubject<any>(undefined);
 
-
   constructor() { }
 
   emitGroupChat(groupChatInfo:any){

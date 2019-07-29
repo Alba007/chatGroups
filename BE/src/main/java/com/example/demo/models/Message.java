@@ -1,7 +1,7 @@
 package com.example.demo.models;
 
-import java.sql.Timestamp;
-import java.time.DateTimeException;
+import org.springframework.lang.Nullable;
+
 
 public class Message {
    private String id ;
@@ -10,7 +10,8 @@ public class Message {
    private MessageType type ;
    private String time ;
    private String groupChatId ;
-
+   @Nullable
+   private byte[] file;
 
     public enum MessageType {
         CHAT,
@@ -28,6 +29,7 @@ public class Message {
         this.type = type;
         this.time = time;
         this.groupChatId = groupChatId;
+
     }
     public String getId() {
         return id;
@@ -67,6 +69,15 @@ public class Message {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    @Nullable
+    public byte[] getFile() {
+        return file;
+    }
+
+    public void setFile(@Nullable byte[] file) {
+        this.file = file;
     }
 
     public String getGroupChatId() {

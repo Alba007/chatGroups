@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./edit-message.component.css']
 })
 export class EditMessageComponent implements OnInit {
-   newMess=""
+  newMess=""
   constructor(private matdalogref: MatDialogRef<EditMessageComponent>) { }
 
   ngOnInit() {

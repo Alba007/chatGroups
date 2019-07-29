@@ -1,12 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
-import { WebSocketService } from '../../services/WebSocketService';
-import { getDataService } from '../../services/getDataService';
-import { Message, Type } from '../../models/message';
-import { HttpReqService } from 'src/app/services/http-req-service.service';
-import { GroupChatWSService } from "../../../groupChatWs";
-import { MatDialog, MatDialogConfig } from "@angular/material";
-import { AddGroupComponent } from "../add-group/add-group.component";
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {WebSocketService} from '../../services/WebSocketService';
+import {getDataService} from '../../services/getDataService';
+import {Message, Type} from '../../models/message';
+import {HttpReqService} from 'src/app/services/http-req-service.service';
+import {GroupChatWSService} from '../../../groupChatWs';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {AddGroupComponent} from '../add-group/add-group.component';
+import {GroupChat} from '../../models/GroupChat';
 
 
 @Component({
@@ -17,32 +18,32 @@ import { AddGroupComponent } from "../add-group/add-group.component";
 export class ChatComponent implements OnInit, AfterViewInit {
   public chatGroups = [];
   public chatMessages = [];
-  public chatId: string = "";
-  messageTobeShownInchat: any[] = []
+  public chatId: string = '';
+  public oldChatId = '';
+  public join = false;
+  public showChat = false;
+  public activeGroup: GroupChat[] = [];
+  messageTobeShownInchat: any[] = [];
   usernameForm: FormGroup;
-  public username: string = "";
-  // attachment = null;
+  public username: string = '';
   //newMwssage
-  res: any
+  res: any;
   //position of message modified
-  pos: any
+  pos: any;
   messageForm: FormGroup;
   messageToBeSent: Message = {
-    "context": "",
-    "groupChatId": "",
-    "sender": "",
-    "time": "",
-    "type": Type.CHAT,
+    'context': '',
+    'groupChatId': '',
+    'sender': '',
+    'time': '',
+    'type': Type.CHAT
   };
-  @ViewChild('chat', { read: ElementRef })
-  private chatEl: ElementRef;
-  name: any;
 
   constructor(private socketMessage: WebSocketService,
-    private getDataService: getDataService,
-    private groupChatWs: GroupChatWSService,
-    private dialog: MatDialog,
-    private httpService: HttpReqService) {
+              private getDataService: getDataService,
+              private groupChatWs: GroupChatWSService,
+              private dialog: MatDialog,
+              private httpService: HttpReqService) {
 
   }
 
@@ -52,9 +53,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (x) {
         console.log("x", x)
         this.chatGroups.push(x)
-
       }
     });
+
+   
     this.messageForm = new FormGroup({
       message: new FormControl(''),
     });
@@ -64,9 +66,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
     this.socketMessage.newMessage.subscribe(newMessage => {
       //erdhi nje mesazh i ri nga nje chatues tjeter prandaj shtohet ne array
-      console.log(newMessage, "mesazhi per socket")
-      let that = this
-      if (newMessage.typee == "post") {
+      console.log(newMessage, 'mesazhi per socket');
+      let that = this;
+      if (newMessage.typee == 'post') {
         var newMess = {
           id: newMessage.id,
           sender: newMessage.sender,
@@ -74,28 +76,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
           type: newMessage.type,
           groupChatId: newMessage.groupChatId,
           time: newMessage.time
-        }
-        this.messageTobeShownInchat.push(newMess)
-      }
-      else {
-        //u modifikua nje mesazh 
-        var index = this.messageTobeShownInchat.map(function (current, index) {
+        };
+        this.messageTobeShownInchat.push(newMess);
+      } else {
+        //u modifikua nje mesazh
+        var index = this.messageTobeShownInchat.map(function(current, index) {
           if (current.id == newMessage.id) {
             that.pos = index;
-            that.res = newMessage.context
-            return index
+            that.res = newMessage.context;
+            return index;
           }
-        })
-        this.notifyForEditMessage()
+        });
+        this.notifyForEditMessage();
       }
-      if (this.chatEl) {
-        this.chatEl.nativeElement.scrollTop = Math.ceil(this.chatEl.nativeElement.scrollHeight);
-      }
-    })
+
+    });
     if (localStorage.getItem('username')) {
-      this.username = localStorage.getItem('username')
-    }
-    else {
+      this.username = localStorage.getItem('username');
+    } else {
 
     }
   }
@@ -107,99 +105,149 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   saveUsername() {
     this.username = this.usernameForm.getRawValue().username;
-    localStorage.setItem('username', this.username);
+    // localStorage.setItem('username',this.username);
 
   }
 
-  // fileChangedHandler(event) {
-  //   const file = event.target.files[0];
-  //   this.attachment = file;
-  // }
-
   sendMessage() {
-    // const attachment = this;
-    // const messageObj = <any>{}
     this.messageToBeSent.context = this.messageForm.getRawValue().message;
     this.messageToBeSent.groupChatId = this.chatId;
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     var dateTime = date + 'T' + time;
     this.messageToBeSent.sender = this.username;
     this.messageToBeSent.time = dateTime;
     this.messageToBeSent.type = Type.CHAT;
-    this.getDataService.postMessages(this.messageToBeSent).subscribe()
-    // if (attachment) {
-    //   messageObj.attachment = {
-    //     file: attachment,
-    //     name: attachment.name,
-    //   };
-    // }
-    this.messageForm.reset();
-    // this.attachment = null;
+    this.getDataService.postMessages(this.messageToBeSent).subscribe(res=>{
+      this.messageForm.reset()
+    }
+      
+
+    );
   }
-  
+
+  isGroupActive(id): boolean {
+    const active = this.activeGroup.filter(x => x.id === id);
+    if (!active.length) {
+      return true;
+    }
+  }
+
+  removeGroup(group) {
+    this.showChat = false;
+    this.activeGroup = this.activeGroup.filter(x => x.id !== group.id);
+    this.messageToBeSent.context = this.username + ' left';
+    this.messageToBeSent.groupChatId = group.id;
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    // var dateTime = date + 'T' + time;
+    this.messageToBeSent.sender = '';
+    this.messageToBeSent.time = '';
+    this.messageToBeSent.type = Type.LEAVE;
+    this.getDataService.postMessages(this.messageToBeSent).subscribe();
+
+  }
+
   openChat(group) {
-    this.chatId = group.id;
+    this.chatId=group.id
+    this.showChat = true;
+    if (!this.join) {
+      this.activeGroup.push(group);
+      console.log(this.chatId, 'new');
+      console.log(this.oldChatId, 'old');
+      this.messageToBeSent.context = this.username + '  joined';
+      this.messageToBeSent.groupChatId = group.id;
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      this.messageToBeSent.sender = '';
+      this.messageToBeSent.time = '';
+      this.messageToBeSent.type = Type.JOIN;
+      this.getDataService.postMessages(this.messageToBeSent).subscribe();
+    }
+
+    if (this.isGroupActive(group.id)) {
+      this.activeGroup.push(group);
+      console.log(this.chatId, 'new');
+      console.log(this.oldChatId, 'old');
+      this.messageToBeSent.context = this.username + '  joined';
+      this.messageToBeSent.groupChatId = group.id;
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      this.messageToBeSent.sender = '';
+      this.messageToBeSent.time = '';
+      this.messageToBeSent.type = Type.JOIN;
+      this.getDataService.postMessages(this.messageToBeSent).subscribe();
+    }
+    this.join = true;
     this.chatMessages = [];
-    this.messageTobeShownInchat = []
-    this.httpService.getMessagesByChatId(this.chatId).subscribe(messages => {
+    this.messageTobeShownInchat = [];
+    this.httpService.getMessagesByChatId(group.id).subscribe(messages => {
       if (messages.length > 0) {
-        this.chatMessages = messages
-        //therritet metoda qe shton mesaZhet ne chat
+        this.chatMessages = messages;
+        console.log("mesagerr")
+        console.log(messages)
         this.addMessagesIntoChat();
       }
-    })
+    });
   }
+
+  
 
   getData() {
     this.httpService.getGroups().subscribe(groups => {
       this.chatGroups = groups;
-    })
+    });
   }
 
   addMessagesIntoChat() {
-    this.messageTobeShownInchat = this.chatMessages.map(function (current) {
-      return current
+    this.messageTobeShownInchat = this.chatMessages.map(function(current) {
+      return current;
 
-    })
-    console.log(this.messageTobeShownInchat)
+    });
+    console.log(this.messageTobeShownInchat);
   }
 
   addGroup() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "30%";
+    dialogConfig.width = '30%';
+    dialogConfig.data=this.chatGroups;
     this.dialog.open(AddGroupComponent, dialogConfig).afterClosed().subscribe(res => {
-    })
+    });
   }
+
   editMesage(message) {
-    let that = this
+    if(message.type !== 'CHAT'){
+      return;
+    }
+    let that = this;
     this.getDataService.openConfirmDialog().afterClosed().subscribe(res => {
 
-      if (res != "") {
-        var index = this.messageTobeShownInchat.map(function (current, index) {
-          if (current.id == message.id) {
-            that.pos = index;
-            that.res = res
-            return index
-          }
-        })
-        //
-        this.messageTobeShownInchat[this.pos].context = this.res
-        this.chatMessages[this.pos].context = this.res
-        this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe();
+        if (res != '') {
+          var index = this.messageTobeShownInchat.map(function(current, index) {
+            if (current.id == message.id) {
+              that.pos = index;
+              that.res = res;
+              return index;
+            }
+          });
+          //
+          this.messageTobeShownInchat[this.pos].context = this.res;
+          this.chatMessages[this.pos].context = this.res;
+          this.getDataService.updateMessages(this.chatMessages[this.pos], this.chatMessages[this.pos].id).subscribe();
+        }
+
+
       }
-
-
-
-    }
-    )
+    );
 
   }
+
   notifyForEditMessage() {
 
-    this.messageTobeShownInchat[this.pos].context = this.res
+    this.messageTobeShownInchat[this.pos].context = this.res;
 
   }
 }

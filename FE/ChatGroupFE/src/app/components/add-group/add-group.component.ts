@@ -1,10 +1,10 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GroupChat} from '../../models/GroupChat';
-import {DeleteComponent} from '../delete/delete.component';
-import {HttpReqService} from '../../services/http-req-service.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ChatComponent} from '../chat/chat.component';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GroupChat } from '../../models/GroupChat';
+import { DeleteComponent } from '../delete/delete.component';
+import { HttpReqService } from '../../services/http-req-service.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ChatComponent } from '../chat/chat.component';
 
 
 @Component({
@@ -15,18 +15,16 @@ import {ChatComponent} from '../chat/chat.component';
 export class AddGroupComponent implements OnInit {
   public groupForm: FormGroup;
   public groupChat: GroupChat;
-
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private httpService: HttpReqService, private dialog: MatDialog, public dialogRef: MatDialogRef<ChatComponent>) {
+  chatGroups: [] = []
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private httpService: HttpReqService, private dialog: MatDialog, public dialogRef: MatDialogRef<ChatComponent>) {
   }
-
   ngOnInit() {
     this.initData();
     this.fillData(this.data);
   }
 
   initData() {
-
+    this.chatGroups = this.data
     this.groupForm = new FormGroup({
       name: new FormControl('', Validators.required)
     })
@@ -35,14 +33,10 @@ export class AddGroupComponent implements OnInit {
 
   fillData(data) {
     if (data) {
-      console.log(this.data.name);
       this.groupForm.patchValue({
         name: data.name,
-
       })
-
     }
-
   }
 
   deleteGroup() {
@@ -56,7 +50,6 @@ export class AddGroupComponent implements OnInit {
     }).afterClosed().subscribe(res => {
       if (res) {
         this.httpService.deleteGroup(this.data._id).subscribe(res => {
-          console.log("Deleted!");
 
 
         })
@@ -67,18 +60,28 @@ export class AddGroupComponent implements OnInit {
   }
 
   addGroup() {
+    let that = this
     if (this.groupForm.invalid) {
       return;
     }
-    this.groupChat = {...this.groupForm.getRawValue()}
-    this.groupChat.main=false;
-    console.log(this.groupChat)
+    let exist
+    this.data.forEach(function (current) {
+      if (current.name === that.groupForm.getRawValue().name) {
+        exist = true;
+      }
+    })
+    if (exist) {
+      alert("This chat exists")
+      return false
+    }
+    this.groupChat = { ...this.groupForm.getRawValue() }
+    this.groupChat.main = false;
 
 
-      this.httpService.saveGroup(this.groupChat).subscribe(
-        data => console.log('Success!', data),
-        error => console.error('Error!', error)
-      );
+    this.httpService.saveGroup(this.groupChat).subscribe(
+      data => console.log('Success!', data),
+      error => console.error('Error!', error)
+    );
     this.onclose();
   }
 

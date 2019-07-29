@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChatComponent} from "./components/chat/chat.component";
 import { EditMessageComponent } from './components/edit-message/edit-message.component';
-
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { EditMessageComponent } from './components/edit-message/edit-message.com
     MatListModule,
     MatMenuModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    AngularFileUploaderModule
 ],
 entryComponents:[AddGroupComponent,DeleteComponent,EditMessageComponent],
   providers: [],
