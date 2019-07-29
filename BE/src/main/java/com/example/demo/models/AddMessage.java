@@ -1,6 +1,7 @@
 package com.example.demo.models;
 import com.example.demo.models.Message;
 import com.google.gson.Gson;
+import org.bson.types.Binary;
 
 import java.sql.Timestamp;
 
