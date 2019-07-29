@@ -63,8 +63,6 @@
     <div class="send-message">
       <form [formGroup]="messageForm" (submit)="sendMessage()">
         <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
-        <input type="file" (change)="onFileSelected($event)">
-        <button type="button" (click)="onUpload()">Upload</button>
         <button class="send-msg">Send</button>
       </form>
 

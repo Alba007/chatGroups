@@ -3,7 +3,8 @@ export interface Message {
   context: string,
   type: Type,
   time: any,
-  groupChatId: string
+  groupChatId: string,
+  image: any
 }
 
 export enum Type {

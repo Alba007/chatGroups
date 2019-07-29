@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 import com.example.demo.models.ChatMessage;
 import com.example.demo.models.Message;
 import com.example.demo.models.AddMessage;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -50,13 +55,13 @@ public class MessageController {
 
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
-    public Message store(@Valid @RequestBody Message message) {
-        repository.save(message);
+    public Message store(@Valid @RequestBody Message message) throws IOException , MultipartException , JsonParseException {
+       repository.save(message);
        AddMessage messageInfo=new AddMessage("post",message.getId(),message.getSender(),
-              message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
+       message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
        this.template.convertAndSend("/topic/public", messageInfo.toString());
-        System.out.println(messageInfo.toString());
-        return message;
+       System.out.println(messageInfo.toString());
+       return message;
     }
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
     public Message update(@PathVariable("id") String id, @Valid @RequestBody Message message) {
@@ -64,9 +69,12 @@ public class MessageController {
         repository.save(message);
         AddMessage messageInfo=new AddMessage("update",message.getId(),message.getSender(),
                 message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
-        this.template.convertAndSend("/send/message", messageInfo.toString());
+        this.template.convertAndSend("/topic/public", messageInfo.toString());
         System.out.println(messageInfo.toString());
         return message;
     }
-
+    @RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable String id) {
+        repository.delete(repository.findById(id).get());
+    }
 }
