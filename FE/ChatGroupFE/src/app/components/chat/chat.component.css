@@ -1,25 +1,29 @@
 .main {
-  border: 2px solid black;
-  margin: 0 auto;
-  width: 1000px;
-  height: 800px;
+  margin: 50px auto;
+  width: 1500px;
+  height: 850px;
   /* background-color: #78e08f; */
 }
 .groupslist{
   border: 1px solid black;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
-  width: 70%;
-  height: 6%;
+  background-color: #095085;
+  width: 40%;
+  height: 9%;
+  color: white;
   margin-bottom: 5px;
   cursor: pointer;
+  /*background-color: ;*/
 }
 .listgroup{
+  height: 50%;
   list-style: none;
+  background-color: #272c3a;
 }
 .header{
   height: 7%;
   background-color: #a5adc5;
+  border-radius: 44px 44px 0px 0px;
 }
 .chat-full{
   height: 80%;
@@ -27,14 +31,18 @@
 }
 .group-list{
   width: 30%;
-  background-color: #91EAE4;
+  background-color: #272c3a;
+  overflow: hidden;
   overflow-y: scroll;
-  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0;
 }
 
 .actions{
   display: flex;
   height: 12.9%;
+  border-radius: 0px 0px 44px 44px;
   background-color: #86A8E7;
 }
 .add-group{
@@ -42,7 +50,7 @@
 }
 .send-message{
   width: 70%;
-  /* background-color: chartreuse; */
+  margin-top: 2%;
 }
 
 .text-area{
@@ -68,33 +76,15 @@
   text-align: center;
   float: right;
 }
-
+.active-group-list{
+  heigh: 50%;
+}
 .chat{
-  position: absolute;
-  margin-top: 5px;
-  width: calc(100% - 20px);
-  max-width: 700px;
-  height: 640px;
-  border-radius: 10px;
-  background-color: #fff;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-29%) translateY(-60%);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  background-color: #f8f8f8;
+  width: 69.8%;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
-
-
-/* .message.messages {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 20px;
-  transition: all 0.5s linear;
-  opacity: 0;
-} */
 .send-msg:hover {
   color: #a3d063;
   background-color: #fff;
@@ -144,5 +134,29 @@
 }
 .message{
   position: relative;
-  /* background-color: #f5886e; */
+  color: white;
+}
+.joinleave{
+  border: 1px solid darkred;
+  border-radius: 5px;
+  background-color: darkred;
+  color: white;
+  margin-right: 3px;
+  float: right;
+}
+.selectChat {
+  font-family: sans-serif;
+  margin-left: 23%;
+  margin-top: 20%;
+  font-size: 67px;
+  color: #fff;
+  opacity: 0.6;
+}
+.sender{
+  display: -webkit-inline-box;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #a3d063;
+  color: darkslategray;
+  font-family: sans-serif;
 }
