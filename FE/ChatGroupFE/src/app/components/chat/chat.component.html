@@ -1,9 +1,9 @@
 <div *ngIf="!username">
   <div class="modal">
     <p class="text">Enter username</p>
-    <form [formGroup]="usernameForm">
+    <form [formGroup]="usernameForm" (submit)="saveUsername()">
       <input class="username-area" formControlName="username" type="textarea">
-      <button class="usernameButton" (click)=" saveUsername()">Confirm</button>
+      <button class="usernameButton">Confirm</button>
     </form>
   </div>
 </div>
@@ -11,30 +11,59 @@
   <div class="header"></div>
   <div class="chat-full">
     <div class="group-list">
-      <ul>
-        <li *ngFor="let group of chatGroups" (click)="openChat(group)">{{group.name}}</li>
+      <ul class="listgroup">
+        <li *ngFor="let group of chatGroups" class="groupslist" (click)="openChat(group)">
+          <p style="margin-left: 10px; margin-top: 3px; margin-right: 3px;">
+            {{group.name}}
+          </p>
+        </li>
+      </ul>
+      <hr style="margin: 10px">
+      <ul class="listgroup">
+        <li *ngFor="let group of activeGroup" class="groupslist" (click)="openChat(group)">
+          <p style="margin-left: 10px; margin-top: 3px; margin-right: 3px;">
+            {{group.name}}
+            <button class="joinleave" (click)="removeGroup(group)">
+          <span class="joinleavecolor">
+              Leave
+          </span>
+            </button>
+          </p>
+        </li>
       </ul>
     </div>
-    <div class="chat">
+    <br>
+
+    <!--    ngIf="join"-->
+    <div class="chat" *ngIf="showChat">
       <div class="message" *ngFor="let messages of messageTobeShownInchat"
-        [style.text-align]=" username === messages.sender ? 'right':'left'" (click)="editMesage(messages)">
-        {{messages.sender}}<br>
-        {{messages.context}}<br>
+           [style.text-align]=" messages.type !== 'CHAT' ? 'center' : username === messages.sender ? 'right':'left'"
+           (click)="editMesage(messages)"><div class="sender" [style.background-color]="messages.type !== 'CHAT' ? '#48a0c9': '#a3d063'"
+           [style.padding]="messages.typee !== 'CHAT' ? '0px 14px 0px' : '5px 10px 8px 10px'">
+        <div class="username">{{messages.sender}}</div><br>
+        {{messages.context}}<br><br>
         {{messages.time}}</div>
+      </div>
     </div>
+    <div class="chat" *ngIf="!showChat">
+      <div class="selectChat">
+        Select a chat
+      </div>
+    </div>
+  </div>
+  <div class="chat" *ngIf="!join">
   </div>
   <div class="actions">
     <div class="add-group">
       <button class="addClass" mat-raised-button (click)="addGroup()">
-        <mat-icon>add</mat-icon>Add Chat Group
+        <mat-icon>add</mat-icon>
+        Add Chat Group
       </button>
     </div>
     <div class="send-message">
-      <form [formGroup]="messageForm" *ngIf="chatId!=''" (submit)="sendMessage()" enctype="multipart/form-data" >
-        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message" />
-        <input class="text-area" formControlName="file" type="file" placeholder="Upload Image"
-          (change)="onFileSelected($event)" />
-        <button  type="submit" class="send-msg" >Send</button>
+      <form [formGroup]="messageForm" (submit)="sendMessage()">
+        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
+        <button class="send-msg">Send</button>
       </form>
 
     </div>
