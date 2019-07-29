@@ -1,13 +1,29 @@
 .main {
-  border: 2px solid black;
-  margin: 0 auto;
-  width: 1000px;
-  height: 800px;
-  background-color: #78e08f;
+  margin: 50px auto;
+  width: 1500px;
+  height: 850px;
+  /* background-color: #78e08f; */
+}
+.groupslist{
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #095085;
+  width: 40%;
+  height: 9%;
+  color: white;
+  margin-bottom: 5px;
+  cursor: pointer;
+  /*background-color: ;*/
+}
+.listgroup{
+  height: 50%;
+  list-style: none;
+  background-color: #272c3a;
 }
 .header{
   height: 7%;
-  background-color: forestgreen;
+  background-color: #a5adc5;
+  border-radius: 44px 44px 0px 0px;
 }
 .chat-full{
   height: 80%;
@@ -15,16 +31,18 @@
 }
 .group-list{
   width: 30%;
-  background-color: #91EAE4;
+  background-color: #272c3a;
+  overflow: hidden;
+  overflow-y: scroll;
 }
-.chat{
-  display: inline-grid;
-  width: 70%;
-  background-color: cornflowerblue;
+::-webkit-scrollbar {
+  width: 0;
 }
+
 .actions{
   display: flex;
   height: 12.9%;
+  border-radius: 0px 0px 44px 44px;
   background-color: #86A8E7;
 }
 .add-group{
@@ -32,20 +50,53 @@
 }
 .send-message{
   width: 70%;
-  background-color: chartreuse;
+  margin-top: 2%;
 }
+
 .text-area{
-  width: 81%;
-  display: flex;
-  height: 50%;
-  border-radius: 15px;
-  margin: 3% auto;
+  display: inline-block;
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #bcbdc0;
+  width: calc(100% - 160px);
+  position: relative;
+  padding: 0 20px;
 }
 .send-msg{
-  margin: -59px auto;
+  width: 120px;
+  height: 50px;
+  margin-top: -50px;
+  display: inline-block;
+  border-radius: 50px;
+  background-color: #a3d063;
+  border: 2px solid #a3d063;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  text-align: center;
   float: right;
-  display: block;
 }
+.active-group-list{
+  height: 50%;
+}
+.chat{
+  width: 69.8%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.send-msg:hover {
+  color: #a3d063;
+  background-color: #fff;
+}
+
+.send-msg.text {
+  font-size: 18px;
+  font-weight: 300;
+  display: inline-block;
+  line-height: 48px;
+}
+
 
 .modal{
   width: 30%;
@@ -83,4 +134,29 @@
 }
 .message{
   position: relative;
+  color: white;
+}
+.joinleave{
+  border: 1px solid darkred;
+  border-radius: 5px;
+  background-color: darkred;
+  color: white;
+  margin-right: 3px;
+  float: right;
+}
+.selectChat {
+  font-family: sans-serif;
+  margin-left: 23%;
+  margin-top: 20%;
+  font-size: 67px;
+  color: #fff;
+  opacity: 0.6;
+}
+.sender{
+  display: -webkit-inline-box;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #a3d063;
+  color: darkslategray;
+  font-family: sans-serif;
 }
