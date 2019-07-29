@@ -26,12 +26,26 @@
         <button  class="addClass" mat-raised-button (click)="addGroup()">
             <mat-icon>add</mat-icon>Add Chat Group </button>
 </div>
+
     <div class="send-message">
+      
       <form [formGroup]="messageForm" (submit)="sendMessage()">
         <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message">
         <button class="send-msg" (click)="sendMessage()" >Send</button>
+        <!-- <img *ngIf="message.attachment"
+      class="image-attachment"
+      src="{{ message.attachment.link }}"
+      alt="{{ message.attachment.name }}"
+    />
+        <input
+        class="file-input"
+          type="file"
+          name="attachment"
+          accept="image/png, image/jpeg"
+          (change)="fileChangedHandler($event)"
+        /> -->
       </form>
-
+      
     </div>
   </div>
 </div>

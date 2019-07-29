@@ -21,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   messageTobeShownInchat: any[] = []
   usernameForm: FormGroup;
   public username: string = "";
+  // attachment = null;
   //newMwssage
   res: any
   //position of message modified
@@ -35,6 +36,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   };
   @ViewChild('chat', { read: ElementRef })
   private chatEl: ElementRef;
+  name: any;
 
   constructor(private socketMessage: WebSocketService,
     private getDataService: getDataService,
@@ -109,7 +111,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   }
 
+  // fileChangedHandler(event) {
+  //   const file = event.target.files[0];
+  //   this.attachment = file;
+  // }
+
   sendMessage() {
+    // const attachment = this;
+    // const messageObj = <any>{}
     this.messageToBeSent.context = this.messageForm.getRawValue().message;
     this.messageToBeSent.groupChatId = this.chatId;
     var today = new Date();
@@ -120,7 +129,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageToBeSent.time = dateTime;
     this.messageToBeSent.type = Type.CHAT;
     this.getDataService.postMessages(this.messageToBeSent).subscribe()
+    // if (attachment) {
+    //   messageObj.attachment = {
+    //     file: attachment,
+    //     name: attachment.name,
+    //   };
+    // }
     this.messageForm.reset();
+    // this.attachment = null;
   }
   
   openChat(group) {
