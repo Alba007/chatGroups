@@ -1,15 +1,15 @@
 export interface Message {
   sender: string,
   context: string,
-  type: Type,
+  type: Type
   time: any,
   groupChatId: string,
-  //image: any
+  file:string
 }
 
 export enum Type {
   CHAT,
   JOIN,
-  LEAVE,
-  IMG
+  DELETE,
+  IMAGE
 }

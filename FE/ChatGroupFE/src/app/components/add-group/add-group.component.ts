@@ -15,6 +15,8 @@ import { ChatComponent } from '../chat/chat.component';
 export class AddGroupComponent implements OnInit {
   public groupForm: FormGroup;
   public groupChat: GroupChat;
+  exist: boolean= false;
+  public message=""
   chatGroups: [] = []
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private httpService: HttpReqService, private dialog: MatDialog, public dialogRef: MatDialogRef<ChatComponent>) {
   }
@@ -61,18 +63,19 @@ export class AddGroupComponent implements OnInit {
 
   addGroup() {
     let that = this
+    this.exist=false ;
     if (this.groupForm.invalid) {
       return;
     }
-    let exist
-    this.data.forEach(function (current) {
+    
+    this.data.forEach((current)=> {
       if (current.name === that.groupForm.getRawValue().name) {
-        exist = true;
+        this.exist = true;
       }
     })
-    if (exist) {
-      alert("This chat exists")
-      return false
+    if (this.exist) {
+      this.message="This group exists"
+      return ;
     }
     this.groupChat = { ...this.groupForm.getRawValue() }
     this.groupChat.main = false;

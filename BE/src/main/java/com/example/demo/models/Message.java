@@ -10,25 +10,28 @@ public class Message {
    private MessageType type ;
    private String time ;
    private String groupChatId ;
-   @Nullable
-   private byte[] file;
+    @Nullable
+   private String file ;
+
 
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        DELETE,
+        IMAGE
     }
     public Message() {
 
     }
 
-    public Message(String id, String sender, String context, MessageType type, String time, String groupChatId) {
+    public Message(String id, String sender, String context, MessageType type, String time, String groupChatId,String file) {
         this.id = id;
         this.sender = sender;
         this.context = context;
         this.type = type;
         this.time = time;
         this.groupChatId = groupChatId;
+        this.file=file ;
 
     }
     public String getId() {
@@ -72,11 +75,11 @@ public class Message {
     }
 
     @Nullable
-    public byte[] getFile() {
+    public String getFile() {
         return file;
     }
 
-    public void setFile(@Nullable byte[] file) {
+    public void setFile(@Nullable String file) {
         this.file = file;
     }
 
