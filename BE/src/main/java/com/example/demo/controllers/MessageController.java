@@ -58,7 +58,7 @@ public class MessageController {
     public Message store(@Valid @RequestBody Message message) throws IOException , MultipartException , JsonParseException {
        repository.save(message);
        AddMessage messageInfo=new AddMessage("post",message.getId(),message.getSender(),
-       message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
+       message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId(),message.getFile());
        this.template.convertAndSend("/topic/public", messageInfo.toString());
        System.out.println(messageInfo.toString());
        return message;
@@ -68,7 +68,7 @@ public class MessageController {
         message.setId(id);
         repository.save(message);
         AddMessage messageInfo=new AddMessage("update",message.getId(),message.getSender(),
-                message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId());
+                message.getContext(), message.getType() ,message.getTime(),message.getGroupChatId(),null);
         this.template.convertAndSend("/topic/public", messageInfo.toString());
         System.out.println(messageInfo.toString());
         return message;

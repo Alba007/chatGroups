@@ -1,10 +1,8 @@
 <mat-icon style=" float: right" id="close-icon" (click)="onclose()">close</mat-icon>
-<br>
-<br>
-<form [formGroup]="groupForm" (ngSubmit)="addGroup()" class="example-form">
-  <mat-form-field class="example-full-width">
-    <input formControlName="name" matInput placeholder="Name" />
-  </mat-form-field>
-  <br>
-  <button type="submit" mat-raised-button color="primary">Add</button>
+<p style="font-size:19px">{{message}}</p>
+<form [formGroup]="groupForm"  class="example-form">
+  <p>Name</p>
+    <input type="text" formControlName="name" placeholder="Name" />
+  <br><br>
+  <button type="submit" (click) ="addGroup()" mat-raised-button color="primary">Add</button>
 </form>

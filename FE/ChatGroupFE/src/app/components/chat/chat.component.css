@@ -13,12 +13,20 @@
   color: white;
   margin-bottom: 5px;
   cursor: pointer;
-  /*background-color: ;*/
+
 }
 .listgroup{
   height: 50%;
   list-style: none;
   background-color: #272c3a;
+  overflow-y: scroll ;
+  overflow-x: hidden ;
+}
+.buttons {
+  display: flex;
+  direction: row;
+  margin-top: 2%;
+
 }
 .header{
   height: 7%;
@@ -38,6 +46,10 @@
 ::-webkit-scrollbar {
   width: 0;
 }
+.image {
+height: 200px;
+  width: 200px;
+}
 
 .actions{
   display: flex;
@@ -50,7 +62,10 @@
 }
 .send-message{
   width: 70%;
-  margin-top: 2%;
+}
+
+.addClass {
+  border-radius : 20px;
 }
 
 .text-area{
@@ -65,7 +80,6 @@
 .send-msg{
   width: 120px;
   height: 50px;
-  margin-top: -50px;
   display: inline-block;
   border-radius: 50px;
   background-color: #a3d063;
@@ -75,6 +89,11 @@
   transition: all 0.2s linear;
   text-align: center;
   float: right;
+}
+.send-msg[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }
 .active-group-list{
   height: 50%;
@@ -89,11 +108,7 @@
   color: #a3d063;
   background-color: #fff;
 }
-.send-msg[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
-}
+
 .send-msg.text {
   font-size: 18px;
   font-weight: 300;
@@ -139,6 +154,8 @@
 .message{
   position: relative;
   color: white;
+  max-width: 100%;
+
 }
 .joinleave{
   border: 1px solid darkred;
@@ -164,5 +181,3 @@
   color: darkslategray;
   font-family: sans-serif;
 }
-
-

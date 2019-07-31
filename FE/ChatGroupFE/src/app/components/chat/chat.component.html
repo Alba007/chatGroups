@@ -20,7 +20,8 @@
       </ul>
       <hr style="margin: 10px">
       <ul class="listgroup">
-        <li *ngFor="let group of activeGroup" class="groupslist" (click)="openChat(group)">
+        <li *ngFor="let group of activeGroup" class="groupslist" (click)="openChat(group)" 
+         [style.background-color]="group.hasNewMessage?'	#00b359':'#095085'">
           <p style="margin-left: 10px; margin-top: 3px; margin-right: 3px;">
             {{group.name}}
             <button class="joinleave" (click)="removeGroup(group)">
@@ -29,22 +30,29 @@
           </span>
             </button>
           </p>
-        </li>
+        </li> 
       </ul>
     </div>
     <br>
-
-    <!--    ngIf="join"-->
-    <div class="chat" *ngIf="showChat">
-      <div class="message" *ngFor="let messages of messageTobeShownInchat"
-           [style.text-align]=" messages.type !== 'CHAT' ? 'center' : username === messages.sender ? 'right':'left'"
-           (click)="editMesage(messages)"><div class="sender" [style.background-color]="messages.type !== 'CHAT' ? '#48a0c9': '#a3d063'"
-           [style.padding]="messages.typee !== 'CHAT' ? '0px 14px 0px' : '5px 10px 8px 10px'">
-        <div class="username">{{messages.sender}}</div><br>
-        {{messages.context}}<br><br>
-        {{messages.time}}</div>
+  <div class="chat" *ngIf="showChat" #scroll>
+    <div class="message" *ngFor="let messages of messageTobeShownInchat"
+      [style.text-align]=" messages.type === 'JOIN' ? 'center' : username === messages.sender ? 'right':'left'"
+      (click)="editMesage(messages)">
+      <div class="sender" 
+     [style.background-color]="messages && messages.type === 'DELETE' ? '#ec8383': messages.type === 'CHAT' ? '#a3d063' : '#48a0c9'"
+        [style.padding]="messages.typee !== 'CHAT' ? '0px 14px 0px' : '5px 10px 8px 10px'">
+        <div class="username">{{messages.sender}}<br>
+          <div *ngIf="messages.file">
+            <img class="image" [src]="'data:image/png;base64,' + messages.file" (click)="openImg(messages.file)"
+              alt="Image">
+          </div>
+          <div *ngIf="messages.type !== 'IMAGE'">
+            {{messages.context}}<br><br>
+            {{messages.time}}</div>
+        </div>
       </div>
     </div>
+  </div>
     <div class="chat" *ngIf="!showChat">
       <div class="selectChat">
         Select a chat
@@ -60,12 +68,24 @@
         Add Chat Group
       </button>
     </div>
-    <div class="send-message">
-      <form [formGroup]="messageForm" (submit)="sendMessage()" *ngIf="hasOpenGroup">
-        <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message" (keyup)="write($event)"/>
-        <button class="send-msg"  [disabled]="sendDisabled">Send</button>
-      </form>
-
+<div class="send-message">
+  <form [formGroup]="messageForm" (submit)="sendMessage()" *ngIf="hasOpenGroup">
+        <div class="buttons">
+    <input class="text-area" formControlName="message" type="textarea" placeholder="Send a message" (keyup)="write($event)">
+    <button type="button" style="background-image: url('assets/photo (1).svg'); background-color: transparent; border: none; margin-right: 1%; margin-left: 1%; opacity: 0.7; width:50px;height: 50px;" (click)='fileinput.click()'></button>
+    <button class="send-msg" [disabled]="sendDisabled">Send</button>
     </div>
-  </div>
+        <input type="file" #fileinput style="display: none" (change)="onFileSelected($event)">
+
+  </form>
+
 </div>
+</div>
+</div>
+
+<ng-template #modal>
+  <div style="width: 600px;height: 600px; background-color: transparent">
+    <img style="height: 100%; width: 100%; object-fit: contain" class="image"
+      [src]="'data:image/png;base64,' + selecteImage" alt="Image">
+  </div>
+</ng-template>

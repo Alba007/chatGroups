@@ -1,0 +1,24 @@
+input[type=text] {
+    width: 80%;
+    padding: 15px 22px;
+    margin: 10px 5px;
+    box-sizing: border-box;  
+    border-color: grey;
+    border-width: 1px;
+}
+
+.delete {
+    position: relative;
+    float: right;
+    border-style: groove;
+    border-color: red;
+    border-width: 2px;
+}
+
+.edit {
+    position: relative;
+    float: left;
+    border-style: groove;
+    border-color: black;
+    border-width: 2px;
+}

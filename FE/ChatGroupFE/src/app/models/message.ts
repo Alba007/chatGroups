@@ -3,13 +3,13 @@ export interface Message {
   context: string,
   type: Type
   time: any,
-  groupChatId: string
+  groupChatId: string,
+  file:string
 }
 
 export enum Type {
   CHAT,
   JOIN,
-  LEAVE,
   DELETE,
   IMAGE
 }
