@@ -45,7 +45,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   selectedFile = null;
   selecteImage: string;
   private base64textString: string;
-  private imgsrc: string;
+  imgsrc: string;
   @ViewChild('modal')
   private modal: TemplateRef<any>;
 
@@ -134,7 +134,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   ngAfterViewChecked() {
     if (this.showChat) {
       this.myscroll.nativeElement.scrollTop = this.myscroll.nativeElement.scrollHeight;
-      console.log('eyyy');
+
     }
   }
 
@@ -142,6 +142,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const files = event.target.files;
     const file = event.target.files[0];
     this.selectedFile = event.target.files[0];
+    this.sendDisabled=false
     console.log(this.selectedFile);
     if (files && file) {
       const reader = new FileReader();
@@ -172,6 +173,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.getDataService.postMessages(this.messageToBeSent).subscribe(res => {
         this.messageForm.reset();
         this.imgsrc = null;
+      this.sendDisabled=true ;
       }
     );
   }
@@ -239,6 +241,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     });
   }
+
 
 
   getData() {
@@ -319,7 +322,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   write(event) {
-    if (event.target.value == '') {
+    if (!event.target.value && this.imgsrc === null) {
+     // console.log(this.imgsrc)
+      console.log(event.target.value,"test@123")
       this.sendDisabled = true;
     } else {
       this.sendDisabled = false;
@@ -358,7 +363,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         time = '';
         this.messageToBeSent.groupChatId = this.chatId;
       } else {
-        context = this.username + 'joined';
+        context = this.username + ' joined';
         type = Type.JOIN;
         sender = '';
         file = null;
