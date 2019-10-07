@@ -4,4 +4,4 @@ export interface GroupChat{
     name: string;
     main: boolean;
     hasNewMessage:boolean ;
-}
++}

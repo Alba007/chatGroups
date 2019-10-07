@@ -18,7 +18,7 @@ import {flatMap, map, toArray} from 'rxjs/operators';
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   public chatGroups = [];
-  sendDisabled: boolean = true;
+  sendDisabled: boolean = false;
   public chatMessages = [];
   public chatId: string = '';
   public oldChatId = '';
@@ -143,7 +143,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const file = event.target.files[0];
     this.selectedFile = event.target.files[0];
     this.sendDisabled=false
-    console.log(this.selectedFile);
+    console.log(files)
+    console.log(file, 'blobiiii');
     if (files && file) {
       const reader = new FileReader();
 
@@ -188,7 +189,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   removeGroup(group) {
     this.showChat = false;
-
     this.activeGroup.forEach((group1) => {
       if (group1.id == group.id) {
         group1.hasNewMessage = false;

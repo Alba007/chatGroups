@@ -1,4 +1,4 @@
-<div *ngIf="!username">
+<div * *ngIf="false">
   <div class="modal">
     <p class="text">Enter username</p>
     <form (submit)="saveUsername()" [formGroup]="usernameForm">
@@ -70,7 +70,7 @@
       </button>
     </div>
     <div class="send-message">
-      <form (submit)="sendMessage()" *ngIf="hasOpenGroup" [formGroup]="messageForm">
+      <form (submit)="sendMessage()"  [formGroup]="messageForm">
         <div class="buttons">
           <input (keyup)="write($event)" class="text-area" formControlName="message" placeholder="Send a message"
                  type="textarea">

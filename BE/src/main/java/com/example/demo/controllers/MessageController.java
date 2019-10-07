@@ -68,6 +68,7 @@ public class MessageController {
     }
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String id) {
+        this.template.convertAndSend("/topic/public","delete");
         repository.delete(repository.findById(id).get());
     }
 }
